@@ -16,10 +16,6 @@ The adapter polls configured network printers using the Internet Printing Protoc
 
 HP cloud integration and print-job submission or other printer control are not implemented.
 
-## Migration from hpprinter
-
-The adapter identity changed from `hpprinter` to `ipp`. Existing instances, settings and states are not migrated automatically. Create an `ipp` instance, re-enter the printer settings, and update scripts or other references from `hpprinter.<instance>` to `ipp.<instance>` before removing the old instance.
-
 ## Configuration
 
 Add one or more printers in the adapter settings. Each row contains:
@@ -51,7 +47,7 @@ Each configured printer gets a device with `status`, `supplies`, `counters`, and
 -->
 
 ### **WORK IN PROGRESS**
-- (Voodoo2man) Renamed the adapter to ipp for vendor-independent IPP monitoring; existing hpprinter instances require manual migration.
+- (Voodoo2man) Renamed the adapter to ipp for vendor-independent IPP monitoring.
 - (Voodoo2man) Initial Version
 
 ## License

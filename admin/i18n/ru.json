@@ -1,0 +1,13 @@
+{
+    "hpprinter adapter settings": "Настройки адаптера hpprinter",
+    "Printers": "Принтеры",
+    "ID": "Идентификатор",
+    "Label": "Название",
+    "Host": "Узел",
+    "Port": "Порт",
+    "IPP resource path": "Путь ресурса IPP",
+    "Use TLS": "Использовать TLS",
+    "Verify TLS certificate": "Проверять сертификат TLS",
+    "Polling interval (seconds)": "Интервал опроса (секунды)",
+    "Request timeout (milliseconds)": "Тайм-аут запроса (миллисекунды)"
+}

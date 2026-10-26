@@ -1,0 +1,107 @@
+{
+    "common": {
+        "name": "hpprinter",
+        "version": "0.0.1",
+        "news": {
+            "NEXT": {
+                "en": "Added read-only IPP printer monitoring for state, supplies, and supported counters.",
+                "de": "Schreibgeschützte IPP-Druckerüberwachung für Status, Verbrauchsmaterial und verfügbare Zähler hinzugefügt.",
+                "ru": "Добавлен мониторинг состояния, расходных материалов и доступных счетчиков принтера через IPP только для чтения.",
+                "pt": "Foi adicionada a monitorização IPP, apenas para leitura, do estado, consumíveis e contadores disponíveis.",
+                "nl": "Alleen-lezen IPP-bewaking van printerstatus, benodigdheden en beschikbare tellers toegevoegd.",
+                "fr": "Ajout de la surveillance IPP en lecture seule de l'état, des consommables et des compteurs disponibles.",
+                "it": "Aggiunto il monitoraggio IPP in sola lettura dello stato, dei materiali di consumo e dei contatori disponibili.",
+                "es": "Se añadió la supervisión IPP de solo lectura del estado, los consumibles y los contadores disponibles.",
+                "pl": "Dodano monitorowanie IPP tylko do odczytu stanu drukarki, materiałów eksploatacyjnych i dostępnych liczników.",
+                "uk": "Додано моніторинг IPP лише для читання стану принтера, витратних матеріалів і доступних лічильників.",
+                "zh-cn": "新增只读 IPP 打印机状态、耗材和可用计数器监控。"
+            },
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "uk": "Початкова версія",
+                "zh-cn": "首次出版"
+            }
+        },
+        "titleLang": {
+            "en": "HP Printer",
+            "de": "HP-Drucker",
+            "ru": "Принтер HP",
+            "pt": "Impressora HP",
+            "nl": "HP-printer",
+            "fr": "Imprimante HP",
+            "it": "Stampante HP",
+            "es": "Impresora HP",
+            "pl": "Drukarka HP",
+            "uk": "Принтер HP",
+            "zh-cn": "惠普打印机"
+        },
+        "desc": {
+            "en": "Read-only monitoring of configured network printers using IPP/2.0 over HTTP or HTTPS",
+            "de": "Schreibgeschützte Überwachung konfigurierter Netzwerkdrucker über IPP/2.0 mit HTTP oder HTTPS",
+            "ru": "Мониторинг настроенных сетевых принтеров через IPP/2.0 по HTTP или HTTPS только для чтения",
+            "pt": "Monitorização de impressoras de rede configuradas através de IPP/2.0 por HTTP ou HTTPS, apenas para leitura",
+            "nl": "Alleen-lezen bewaking van geconfigureerde netwerkprinters via IPP/2.0 over HTTP of HTTPS",
+            "fr": "Surveillance en lecture seule des imprimantes réseau configurées via IPP/2.0 en HTTP ou HTTPS",
+            "it": "Monitoraggio in sola lettura delle stampanti di rete configurate tramite IPP/2.0 su HTTP o HTTPS",
+            "es": "Supervisión de solo lectura de impresoras de red mediante IPP/2.0 por HTTP o HTTPS",
+            "pl": "Monitorowanie skonfigurowanych drukarek sieciowych przez IPP/2.0 za pomocą HTTP lub HTTPS tylko do odczytu",
+            "uk": "Моніторинг налаштованих мережевих принтерів через IPP/2.0 за HTTP або HTTPS лише для читання",
+            "zh-cn": "通过 HTTP 或 HTTPS 上的 IPP/2.0 只读监控已配置的网络打印机"
+        },
+        "authors": [
+            "Voodoo2man <Voodoo2man@outlook.de>"
+        ],
+        "keywords": [
+            "HP",
+            "printer",
+            "printing",
+            "IPP",
+            "IPP/2.0",
+            "IPPS"
+        ],
+        "licenseInformation": {
+            "type": "free",
+            "license": "MIT"
+        },
+        "platform": "Javascript/Node.js",
+        "icon": "hpprinter.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/Voodoo2man/ioBroker.HPPrinter/main/admin/hpprinter.png",
+        "readme": "https://github.com/Voodoo2man/ioBroker.HPPrinter/blob/main/README.md",
+        "loglevel": "info",
+        "tier": 3,
+        "mode": "daemon",
+        "type": "network",
+        "compact": true,
+        "connectionType": "local",
+        "dataSource": "poll",
+        "adminUI": {
+            "config": "json"
+        },
+        "dependencies": [
+            {
+                "js-controller": ">=6.0.11"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=7.0.23"
+            }
+        ]
+    },
+    "native": {
+        "printers": [],
+        "intervalSeconds": 60,
+        "timeoutMs": 5000
+    },
+    "objects": [],
+    "instanceObjects": []
+}

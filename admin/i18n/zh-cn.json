@@ -1,0 +1,13 @@
+{
+    "hpprinter adapter settings": "hpprinter 适配器设置",
+    "Printers": "打印机",
+    "ID": "ID",
+    "Label": "名称",
+    "Host": "主机",
+    "Port": "端口",
+    "IPP resource path": "IPP 资源路径",
+    "Use TLS": "使用 TLS",
+    "Verify TLS certificate": "验证 TLS 证书",
+    "Polling interval (seconds)": "轮询间隔（秒）",
+    "Request timeout (milliseconds)": "请求超时（毫秒）"
+}

@@ -1,0 +1,13 @@
+{
+    "hpprinter adapter settings": "Configurações do adaptador hpprinter",
+    "Printers": "Impressoras",
+    "ID": "ID",
+    "Label": "Nome",
+    "Host": "Host",
+    "Port": "Porta",
+    "IPP resource path": "Caminho do recurso IPP",
+    "Use TLS": "Usar TLS",
+    "Verify TLS certificate": "Verificar certificado TLS",
+    "Polling interval (seconds)": "Intervalo de consulta (segundos)",
+    "Request timeout (milliseconds)": "Tempo limite da solicitação (milissegundos)"
+}

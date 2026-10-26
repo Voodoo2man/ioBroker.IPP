@@ -1,5 +1,5 @@
 {
-  "name": "iobroker.hpprinter",
+  "name": "iobroker.ipp",
   "version": "0.0.1",
   "description": "Read-only network printer monitoring over Internet Printing Protocol (IPP)",
   "author": {
@@ -7,10 +7,9 @@
     "email": "Voodoo2man@outlook.de"
   },
   "contributors": [],
-  "homepage": "https://github.com/Voodoo2man/ioBroker.HPPrinter",
+  "homepage": "https://github.com/Voodoo2man/ioBroker.IPP",
   "license": "MIT",
   "keywords": [
-    "HP",
     "printer",
     "printing",
     "IPP",
@@ -19,7 +18,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Voodoo2man/ioBroker.HPPrinter.git"
+    "url": "https://github.com/Voodoo2man/ioBroker.IPP.git"
   },
   "engines": {
     "node": ">= 20"
@@ -68,7 +67,7 @@
     "release": "release-script"
   },
   "bugs": {
-    "url": "https://github.com/Voodoo2man/ioBroker.HPPrinter/issues"
+    "url": "https://github.com/Voodoo2man/ioBroker.IPP/issues"
   },
   "readmeFilename": "README.md"
 }

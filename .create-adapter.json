@@ -1,11 +1,10 @@
 {
     "cli": true,
     "target": "directory",
-    "adapterName": "hpprinter",
-    "title": "HP Printer",
+    "adapterName": "ipp",
+    "title": "IPP",
     "description": "Read-only network printer monitoring over Internet Printing Protocol (IPP)",
     "keywords": [
-        "HP",
         "printer",
         "printing",
         "IPP",

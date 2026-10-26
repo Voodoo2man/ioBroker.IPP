@@ -15,7 +15,7 @@ function boundedNumber(value: unknown, fallback: number, min: number, max: numbe
     return Number.isFinite(number) ? Math.min(max, Math.max(min, number)) : fallback;
 }
 
-class Hpprinter extends Adapter {
+class Ipp extends Adapter {
     private pollTimer: ioBroker.Interval | null = null;
     private polling = false;
     private unloading = false;
@@ -23,7 +23,7 @@ class Hpprinter extends Adapter {
     private timeoutMs = DEFAULT_TIMEOUT_MS;
 
     constructor(options: Partial<AdapterOptions> = {}) {
-        super({ ...options, name: 'hpprinter' });
+        super({ ...options, name: 'ipp' });
         this.on('ready', this.onReady.bind(this));
         this.on('unload', this.onUnload.bind(this));
     }
@@ -160,7 +160,7 @@ class Hpprinter extends Adapter {
 }
 
 if (require.main === module) {
-    new Hpprinter();
+    new Ipp();
 } else {
-    module.exports = (options?: Partial<AdapterOptions>): Hpprinter => new Hpprinter(options);
+    module.exports = (options?: Partial<AdapterOptions>): Ipp => new Ipp(options);
 }

@@ -1,20 +1,24 @@
-![Logo](admin/hpprinter.png)
-# ioBroker.hpprinter
+![Logo](admin/ipp.png)
+# ioBroker.ipp
 
-[![NPM version](https://img.shields.io/npm/v/iobroker.hpprinter.svg)](https://www.npmjs.com/package/iobroker.hpprinter)
-[![Downloads](https://img.shields.io/npm/dm/iobroker.hpprinter.svg)](https://www.npmjs.com/package/iobroker.hpprinter)
-![Number of Installations](https://iobroker.live/badges/hpprinter-installed.svg)
-![Current version in stable repository](https://iobroker.live/badges/hpprinter-stable.svg)
+[![NPM version](https://img.shields.io/npm/v/iobroker.ipp.svg)](https://www.npmjs.com/package/iobroker.ipp)
+[![Downloads](https://img.shields.io/npm/dm/iobroker.ipp.svg)](https://www.npmjs.com/package/iobroker.ipp)
+![Number of Installations](https://iobroker.live/badges/ipp-installed.svg)
+![Current version in stable repository](https://iobroker.live/badges/ipp-stable.svg)
 
-[![NPM](https://nodei.co/npm/iobroker.hpprinter.png?downloads=true)](https://nodei.co/npm/iobroker.hpprinter/)
+[![NPM](https://nodei.co/npm/iobroker.ipp.png?downloads=true)](https://nodei.co/npm/iobroker.ipp/)
 
-**Tests:** ![Test and Release](https://github.com/Voodoo2man/ioBroker.HPPrinter/workflows/Test%20and%20Release/badge.svg)
+**Tests:** ![Test and Release](https://github.com/Voodoo2man/ioBroker.IPP/workflows/Test%20and%20Release/badge.svg)
 
-## ioBroker HP Printer Adapter
+## ioBroker IPP Adapter
 
-The adapter polls configured network printers using the Internet Printing Protocol (IPP) and publishes read-only availability, printer state, toner or ink levels, and supported page counters. It uses `Get-Printer-Attributes` over IPP/2.0; device and firmware support varies, so optional attributes may not be reported by every printer. The HP LaserJet Pro MFP M479fdn has not yet been verified against this implementation.
+The adapter polls configured network printers using the Internet Printing Protocol (IPP) and publishes read-only availability, printer state, toner or ink levels, and supported page counters. It uses `Get-Printer-Attributes` over IPP/2.0; device and firmware support varies, so optional attributes may not be reported by every printer. Compatibility depends on each printer’s IPP implementation; no particular device has been verified against this implementation.
 
 HP cloud integration and print-job submission or other printer control are not implemented.
+
+## Migration from hpprinter
+
+The adapter identity changed from `hpprinter` to `ipp`. Existing instances, settings and states are not migrated automatically. Create an `ipp` instance, re-enter the printer settings, and update scripts or other references from `hpprinter.<instance>` to `ipp.<instance>` before removing the old instance.
 
 ## Configuration
 
@@ -47,6 +51,7 @@ Each configured printer gets a device with `status`, `supplies`, `counters`, and
 -->
 
 ### **WORK IN PROGRESS**
+- (Voodoo2man) Renamed the adapter to ipp for vendor-independent IPP monitoring; existing hpprinter instances require manual migration.
 - (Voodoo2man) Initial Version
 
 ## License

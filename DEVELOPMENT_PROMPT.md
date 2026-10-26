@@ -1,10 +1,10 @@
-# HP Printer Adapter Development Prompt
+# IPP Printer Adapter Development Prompt
 
-You are implementing the ioBroker adapter `hpprinter` in this workspace. Read the root `AGENTS.md` and follow it as the governing project policy. Preserve the existing Creator scaffold and user changes. Do not publish, release, tag, push, create a GitHub repository, or change version numbers.
+You are implementing the ioBroker adapter `ipp` in this workspace. Read the root `AGENTS.md` and follow it as the governing project policy. Preserve the existing Creator scaffold and user changes. Do not publish, release, tag, push, create a GitHub repository, or change version numbers.
 
 ## Product goal
 
-Build a maintainable ioBroker adapter that monitors HP network printers, with the HP LaserJet Pro MFP M479fdn as the first real validation target. The longer-term goal is broad HP printer coverage, but do not claim universal compatibility. Local network support is the initial implementation target. HP cloud support is optional future work and must not be implemented against undocumented/private endpoints or guessed authentication flows.
+Build a maintainable ioBroker adapter that monitors IPP network printers from different manufacturers; do not claim universal compatibility. Local network support is the initial implementation target. HP cloud support is optional future work and must not be implemented against undocumented/private endpoints or guessed authentication flows.
 
 ## Engineering constraints
 

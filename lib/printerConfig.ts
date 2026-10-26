@@ -1,0 +1,102 @@
+import type { PrinterEndpoint } from './printerIpp';
+
+export interface PrinterConfig extends PrinterEndpoint {
+    id: string;
+    label?: string;
+}
+
+export interface PrinterConfigResult {
+    config?: PrinterConfig;
+    errors: string[];
+}
+
+function normalizeCheckbox(value: unknown): boolean | undefined | null {
+    if (value === undefined || value === null || value === '') {
+        return false;
+    }
+    if (value === true || value === 1 || value === '1' || value === 'true') {
+        return true;
+    }
+    if (value === false || value === 0 || value === '0' || value === 'false') {
+        return false;
+    }
+    return null;
+}
+
+export function parsePrinterConfig(value: unknown): PrinterConfigResult {
+    const errors = getPrinterConfigErrors(value);
+    if (!value || typeof value !== 'object' || Array.isArray(value) || errors.length > 0) {
+        return { errors };
+    }
+
+    const printer = value as Record<string, unknown>;
+    const ssl = normalizeCheckbox(printer.ssl);
+    const verifySsl = normalizeCheckbox(printer.verifySsl);
+    if (ssl === null || verifySsl === null) {
+        if (ssl === null) {
+            errors.push('ssl must be true/false, 1/0, or an unchecked checkbox');
+        }
+        if (verifySsl === null) {
+            errors.push('verifySsl must be true/false, 1/0, or an unchecked checkbox');
+        }
+        return { errors };
+    }
+
+    return {
+        config: {
+            id: printer.id as string,
+            label: typeof printer.label === 'string' ? printer.label : undefined,
+            host: printer.host as string,
+            port: printer.port as number | string | undefined,
+            basePath: printer.basePath as string | undefined,
+            ssl,
+            verifySsl,
+        },
+        errors: [],
+    };
+}
+
+export function getPrinterConfigErrors(value: unknown): string[] {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) {
+        return ['row must be an object'];
+    }
+
+    const printer = value as Record<string, unknown>;
+    const errors: string[] = [];
+
+    if (typeof printer.id !== 'string' || !/^[A-Za-z0-9_-]{1,32}$/.test(printer.id)) {
+        errors.push('id must contain 1-32 letters, digits, underscores, or hyphens');
+    }
+    if (typeof printer.host !== 'string' || printer.host.trim() === '') {
+        errors.push('host is missing or is not text');
+    }
+    if (
+        printer.port !== undefined &&
+        printer.port !== '' &&
+        (!Number.isInteger(Number(printer.port)) || Number(printer.port) < 1 || Number(printer.port) > 65535)
+    ) {
+        errors.push('port must be an integer from 1 to 65535');
+    }
+    if (
+        printer.basePath !== undefined &&
+        (typeof printer.basePath !== 'string' || !printer.basePath.startsWith('/') || printer.basePath.includes('..'))
+    ) {
+        errors.push('basePath must start with / and must not contain ..');
+    }
+    for (const key of ['ssl', 'verifySsl']) {
+        if (normalizeCheckbox(printer[key]) === null) {
+            errors.push(`${key} must be true/false, 1/0, or an unchecked checkbox`);
+        }
+    }
+    return errors;
+}
+
+export function describePrinterConfig(value: unknown): string {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) {
+        return `rowType=${Array.isArray(value) ? 'array' : typeof value}`;
+    }
+
+    const printer = value as Record<string, unknown>;
+    const fields = ['id', 'label', 'host', 'port', 'basePath', 'ssl', 'verifySsl'];
+    return fields.map(key => `${key}=${key in printer ? typeof printer[key] : 'missing'}`).join(', ');
+}

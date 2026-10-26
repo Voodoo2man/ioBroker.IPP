@@ -9,8 +9,8 @@ export default [
         ignores: [
             '.dev-server/',
             '.vscode/',
-            '*.test.js',
-            'test/**/*.js',
+            'build/',
+            '.test-build/',
             '*.config.mjs',
             'build',
             'dist',
@@ -30,6 +30,13 @@ export default [
             // 'jsdoc/require-param-description': 'off',
             // 'jsdoc/require-returns-description': 'off',
             // 'jsdoc/require-returns-check': 'off',
+        },
+    },
+    {
+        files: ['**/*.ts'],
+        rules: {
+            'jsdoc/require-jsdoc': 'off',
+            'jsdoc/require-param': 'off',
         },
     },
 ];

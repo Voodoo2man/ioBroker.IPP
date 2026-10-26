@@ -1,8 +1,6 @@
-'use strict';
-
-const http = require('node:http');
-const https = require('node:https');
-const ipp = require('@sealsystems/ipp');
+import http from 'node:http';
+import https from 'node:https';
+import * as ipp from '@sealsystems/ipp';
 
 const MAX_RESPONSE_BYTES = 1024 * 1024;
 const printerAttributes = ipp.attributes['Printer Description'];
@@ -26,16 +24,79 @@ const REQUESTED_ATTRIBUTES = [
     'pages-completed',
     'impressions-completed',
     'media-sheets-completed',
+    'printer-info',
+    'printer-location',
+    'printer-more-info',
+    'printer-is-accepting-jobs',
+    'queued-job-count',
+    'printer-up-time',
+    'printer-current-time',
+    'operations-supported',
+    'document-format-supported',
+    'color-supported',
+    'pages-per-minute',
+    'pages-per-minute-color',
+    'uri-authentication-supported',
+    'uri-security-supported',
 ];
 
-function asArray(value) {
+const DETAIL_ATTRIBUTES = [
+    ['printer-info', 'Printer information'],
+    ['printer-location', 'Printer location'],
+    ['printer-more-info', 'More information URL'],
+    ['printer-is-accepting-jobs', 'Accepting jobs'],
+    ['queued-job-count', 'Queued jobs'],
+    ['printer-up-time', 'Uptime'],
+    ['printer-current-time', 'Printer time'],
+    ['operations-supported', 'Supported operations'],
+    ['document-format-supported', 'Supported document formats'],
+    ['color-supported', 'Color printing supported'],
+    ['pages-per-minute', 'Pages per minute'],
+    ['pages-per-minute-color', 'Color pages per minute'],
+    ['uri-authentication-supported', 'Supported URI authentication'],
+    ['uri-security-supported', 'Supported URI security'],
+] as const;
+
+export interface PrinterEndpoint {
+    host: string;
+    port?: number | string;
+    basePath?: string;
+    ssl?: boolean;
+    verifySsl?: boolean;
+    timeoutMs?: number;
+}
+
+export interface PrinterSupply {
+    description: string;
+    level: number;
+    maxLevel: number;
+    unit: number;
+    markerType: unknown;
+}
+
+export interface PrinterSnapshot {
+    online: boolean;
+    printerState: number | null;
+    status: string | null;
+    model: string | null;
+    printerName: string | null;
+    supplies: PrinterSupply[];
+    counters: {
+        pagesCompleted: number | null;
+        impressionsCompleted: number | null;
+        mediaSheetsCompleted: number | null;
+    };
+    details: Array<{ id: string; name: string; value: string | number | boolean }>;
+}
+
+function asArray(value: unknown): unknown[] {
     if (value === undefined || value === null) {
         return [];
     }
     return Array.isArray(value) ? value : [value];
 }
 
-function finiteNumber(value) {
+function finiteNumber(value: unknown): number | null {
     if (typeof value === 'number' && Number.isFinite(value)) {
         return value;
     }
@@ -46,33 +107,46 @@ function finiteNumber(value) {
     return null;
 }
 
-function normalizePrinterState(value) {
+function normalizePrinterState(value: unknown): number | null {
     const numericState = finiteNumber(value);
     if (numericState !== null) {
         return numericState;
     }
-    return { idle: 3, processing: 4, stopped: 5 }[value] ?? null;
+    if (value === 'idle') {
+        return 3;
+    }
+    if (value === 'processing') {
+        return 4;
+    }
+    if (value === 'stopped') {
+        return 5;
+    }
+    return null;
 }
 
-function validHost(host) {
-    return typeof host === 'string' && host.trim() !== '' && !/[/?#@\s]/.test(host.trim());
+function validHost(host: string): boolean {
+    return host.trim() !== '' && !/[/?#@\s]/.test(host.trim());
 }
 
-function responseAttributes(response) {
-    return response?.['printer-attributes-tag'] || response?.['unsupported-attributes-tag'] || {};
+function responseAttributes(response: ipp.IppResponse): Record<string, unknown> {
+    const attributes = response['printer-attributes-tag'] ?? response['unsupported-attributes-tag'];
+    return attributes && typeof attributes === 'object' ? (attributes as Record<string, unknown>) : {};
 }
 
-function normalizeSnapshot(response) {
+export function normalizeSnapshot(response: ipp.IppResponse): PrinterSnapshot {
     const attributes = responseAttributes(response);
-    const printerState = normalizePrinterState(attributes['printer-state']);
-    const reasons = asArray(attributes['printer-state-reasons']).filter(value => typeof value === 'string');
-    const stateMessages = asArray(attributes['printer-state-message']).filter(value => typeof value === 'string');
+    const reasons = asArray(attributes['printer-state-reasons']).filter(
+        (value): value is string => typeof value === 'string',
+    );
+    const stateMessages = asArray(attributes['printer-state-message']).filter(
+        (value): value is string => typeof value === 'string',
+    );
     const markerNames = asArray(attributes['marker-names']);
     const markerLevels = asArray(attributes['marker-levels']);
     const markerHighLevels = asArray(attributes['marker-high-levels']);
     const markerLowLevels = asArray(attributes['marker-low-levels']);
     const markerTypes = asArray(attributes['marker-types']);
-    const supplies = markerNames.flatMap((name, index) => {
+    const supplies = markerNames.flatMap((name, index): PrinterSupply[] => {
         const level = finiteNumber(markerLevels[index]);
         const highLevel = finiteNumber(markerHighLevels[index]);
         const lowLevel = finiteNumber(markerLowLevels[index]);
@@ -100,10 +174,24 @@ function normalizeSnapshot(response) {
             },
         ];
     });
+    const details = DETAIL_ATTRIBUTES.flatMap(([attribute, name]) => {
+        const value = attributes[attribute];
+        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+            return [{ id: attribute.replace(/-/g, '_'), name, value }];
+        }
+        if (
+            Array.isArray(value) &&
+            value.length > 0 &&
+            value.every(item => ['string', 'number', 'boolean'].includes(typeof item))
+        ) {
+            return [{ id: attribute.replace(/-/g, '_'), name, value: JSON.stringify(value) }];
+        }
+        return [];
+    });
 
     return {
         online: true,
-        printerState,
+        printerState: normalizePrinterState(attributes['printer-state']),
         status: stateMessages[0] || reasons.join(', ') || null,
         model: typeof attributes['printer-make-and-model'] === 'string' ? attributes['printer-make-and-model'] : null,
         printerName: typeof attributes['printer-name'] === 'string' ? attributes['printer-name'] : null,
@@ -113,10 +201,11 @@ function normalizeSnapshot(response) {
             impressionsCompleted: finiteNumber(attributes['impressions-completed']),
             mediaSheetsCompleted: finiteNumber(attributes['media-sheets-completed']),
         },
+        details,
     };
 }
 
-function makeRequest(uri) {
+function makeRequest(uri: string): Buffer {
     return ipp.serialize({
         version: '2.0',
         operation: 'Get-Printer-Attributes',
@@ -130,9 +219,10 @@ function makeRequest(uri) {
     });
 }
 
-function sendRequest(url, uri, timeoutMs, verifySsl) {
+function sendRequest(url: URL, uri: string, timeoutMs: number, verifySsl: boolean): Promise<ipp.IppResponse> {
     return new Promise((resolve, reject) => {
         const transport = url.protocol === 'https:' ? https : http;
+        const requestBody = makeRequest(uri);
         const request = transport.request(
             url,
             {
@@ -140,14 +230,14 @@ function sendRequest(url, uri, timeoutMs, verifySsl) {
                 headers: {
                     'content-type': 'application/ipp',
                     accept: 'application/ipp',
-                    'content-length': makeRequest(uri).length,
+                    'content-length': requestBody.length,
                 },
                 agent: url.protocol === 'https:' ? new https.Agent({ rejectUnauthorized: verifySsl }) : undefined,
             },
             response => {
-                const chunks = [];
+                const chunks: Buffer[] = [];
                 let size = 0;
-                response.on('data', chunk => {
+                response.on('data', (chunk: Buffer) => {
                     size += chunk.length;
                     if (size > MAX_RESPONSE_BYTES) {
                         request.destroy(new Error('IPP response exceeded the size limit'));
@@ -163,7 +253,7 @@ function sendRequest(url, uri, timeoutMs, verifySsl) {
                     }
                     try {
                         const parsed = ipp.parse(Buffer.concat(chunks));
-                        if (!parsed || !parsed.statusCode || !String(parsed.statusCode).startsWith('successful-')) {
+                        if (!parsed.statusCode || !String(parsed.statusCode).startsWith('successful-')) {
                             reject(new Error('Printer returned an unsuccessful IPP response'));
                             return;
                         }
@@ -175,52 +265,43 @@ function sendRequest(url, uri, timeoutMs, verifySsl) {
             },
         );
         request.setTimeout(timeoutMs, () => {
-            const error = /** @type {NodeJS.ErrnoException} */ (new Error('IPP request timed out'));
+            const error = new Error('IPP request timed out') as NodeJS.ErrnoException;
             error.code = 'ETIMEDOUT';
             request.destroy(error);
         });
-        request.on('error', error => {
-            const requestError = /** @type {NodeJS.ErrnoException} */ (error);
+        request.on('error', (error: NodeJS.ErrnoException) => {
             reject(
-                requestError.code === 'ETIMEDOUT'
+                error.code === 'ETIMEDOUT'
                     ? new Error('Printer request timed out')
                     : new Error('Printer IPP request failed'),
             );
         });
-        request.end(makeRequest(uri));
+        request.end(requestBody);
     });
 }
 
-async function pollPrinter({
+export async function pollPrinter({
     host,
     port = 631,
     basePath = '/ipp/print',
     ssl = false,
     verifySsl = false,
     timeoutMs = 5000,
-}) {
+}: PrinterEndpoint): Promise<PrinterSnapshot> {
+    const numericPort = Number(port);
     if (!validHost(host)) {
         throw new TypeError('A valid printer host is required');
     }
-    if (!Number.isInteger(port) || port < 1 || port > 65535) {
+    if (!Number.isInteger(numericPort) || numericPort < 1 || numericPort > 65535) {
         throw new TypeError('Printer port must be an integer between 1 and 65535');
     }
-    if (
-        typeof basePath !== 'string' ||
-        !basePath.startsWith('/') ||
-        basePath.includes('..') ||
-        /[?#\s]/.test(basePath)
-    ) {
+    if (!basePath.startsWith('/') || basePath.includes('..') || /[?#\s]/.test(basePath)) {
         throw new TypeError('IPP base path must be an absolute path without query or fragment');
     }
     if (!Number.isInteger(timeoutMs) || timeoutMs < 500 || timeoutMs > 30000) {
         throw new TypeError('timeoutMs must be an integer between 500 and 30000');
     }
-    const scheme = ssl ? 'https:' : 'http:';
-    const endpoint = new URL(`${scheme}//${host.trim()}:${port}${basePath}`);
+    const endpoint = new URL(`${ssl ? 'https:' : 'http:'}//${host.trim()}:${numericPort}${basePath}`);
     const uri = `${ssl ? 'ipps:' : 'ipp:'}//${endpoint.host}${endpoint.pathname}`;
-    const response = await sendRequest(endpoint, uri, timeoutMs, verifySsl);
-    return normalizeSnapshot(response);
+    return normalizeSnapshot(await sendRequest(endpoint, uri, timeoutMs, verifySsl));
 }
-
-module.exports = { pollPrinter, _makeRequest: makeRequest, _normalizeSnapshot: normalizeSnapshot };

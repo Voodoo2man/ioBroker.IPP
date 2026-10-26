@@ -1,23 +1,28 @@
-'use strict';
+import http from 'node:http';
+import { expect } from 'chai';
+import * as ipp from '@sealsystems/ipp';
+import { normalizeSnapshot, pollPrinter } from './printerIpp';
 
-const http = require('node:http');
-const { expect } = require('chai');
-const { describe, it } = require('mocha');
-const ipp = require('@sealsystems/ipp');
-const { pollPrinter, _normalizeSnapshot } = require('./printerIpp');
+function ippResponse(attributes: Record<string, unknown>): Buffer {
+    return ipp.serialize({ version: '2.0', statusCode: 'successful-ok', id: 1, 'printer-attributes-tag': attributes });
+}
 
-function ippResponse(attributes) {
-    return ipp.serialize({
-        version: '2.0',
-        statusCode: 'successful-ok',
-        id: 1,
-        'printer-attributes-tag': attributes,
-    });
+async function expectRejection(
+    promise: Promise<unknown>,
+    expectedError: new (...args: never[]) => Error,
+): Promise<void> {
+    let error: unknown;
+    try {
+        await promise;
+    } catch (caught) {
+        error = caught;
+    }
+    expect(error).to.be.instanceOf(expectedError);
 }
 
 describe('printerIpp', () => {
     it('normalizes printer state, percentage markers, and available counters', () => {
-        const snapshot = _normalizeSnapshot({
+        const snapshot = normalizeSnapshot({
             statusCode: 'successful-ok',
             'printer-attributes-tag': {
                 'printer-state': 'processing',
@@ -31,6 +36,10 @@ describe('printerIpp', () => {
                 'pages-completed': 120,
                 'impressions-completed': 125,
                 'media-sheets-completed': 118,
+                'printer-location': 'Office',
+                'printer-is-accepting-jobs': true,
+                'queued-job-count': 2,
+                'document-format-supported': ['application/pdf', 'image/pwg-raster'],
             },
         });
 
@@ -48,10 +57,20 @@ describe('printerIpp', () => {
             impressionsCompleted: 125,
             mediaSheetsCompleted: 118,
         });
+        expect(snapshot.details).to.deep.equal([
+            { id: 'printer_location', name: 'Printer location', value: 'Office' },
+            { id: 'printer_is_accepting_jobs', name: 'Accepting jobs', value: true },
+            { id: 'queued_job_count', name: 'Queued jobs', value: 2 },
+            {
+                id: 'document_format_supported',
+                name: 'Supported document formats',
+                value: '["application/pdf","image/pwg-raster"]',
+            },
+        ]);
     });
 
     it('preserves zero values and represents unsupported values as null', () => {
-        const snapshot = _normalizeSnapshot({
+        const snapshot = normalizeSnapshot({
             statusCode: 'successful-ok',
             'printer-attributes-tag': {
                 'printer-state': 'idle',
@@ -62,7 +81,6 @@ describe('printerIpp', () => {
                 'pages-completed': 0,
             },
         });
-
         expect(snapshot.supplies[0].level).to.equal(0);
         expect(snapshot.counters).to.deep.equal({
             pagesCompleted: 0,
@@ -73,13 +91,13 @@ describe('printerIpp', () => {
     });
 
     it('sends a read-only Get-Printer-Attributes request to the configured resource', async () => {
-        let resolveRequest;
-        const requestReceived = new Promise(resolve => {
+        let resolveRequest!: (value: ipp.IppResponse) => void;
+        const requestReceived = new Promise<ipp.IppResponse>(resolve => {
             resolveRequest = resolve;
         });
         const server = http.createServer((request, response) => {
-            const chunks = [];
-            request.on('data', chunk => chunks.push(chunk));
+            const chunks: Buffer[] = [];
+            request.on('data', (chunk: Buffer) => chunks.push(chunk));
             request.on('end', () => {
                 resolveRequest(ipp.parse(Buffer.concat(chunks)));
                 response.writeHead(200, { 'content-type': 'application/ipp' });
@@ -90,23 +108,28 @@ describe('printerIpp', () => {
                         'pages-completed': 52,
                         'impressions-completed': 60,
                         'media-sheets-completed': 49,
+                        'printer-location': 'Office',
                     }),
                 );
             });
         });
-        await new Promise(resolve => server.listen(0, () => resolve(undefined)));
+        await new Promise<void>(resolve => server.listen(0, resolve));
 
         try {
             const address = server.address();
             if (!address || typeof address === 'string') {
                 throw new Error('Test server did not bind to a TCP port');
             }
-            const { port } = address;
-            const result = await pollPrinter({ host: '127.0.0.1', port, basePath: '/ipp/print', timeoutMs: 2000 });
+            const result = await pollPrinter({
+                host: '127.0.0.1',
+                port: address.port,
+                basePath: '/ipp/print',
+                timeoutMs: 2000,
+            });
             const receivedRequest = await requestReceived;
             expect(receivedRequest.operation).to.equal('Get-Printer-Attributes');
-            expect(receivedRequest['operation-attributes-tag']['printer-uri']).to.equal(
-                `ipp://127.0.0.1:${port}/ipp/print`,
+            expect((receivedRequest['operation-attributes-tag'] as Record<string, unknown>)['printer-uri']).to.equal(
+                `ipp://127.0.0.1:${address.port}/ipp/print`,
             );
             expect(result).to.include({ online: true, printerState: 3, status: 'Idle' });
             expect(result.counters).to.deep.equal({
@@ -114,8 +137,11 @@ describe('printerIpp', () => {
                 impressionsCompleted: 60,
                 mediaSheetsCompleted: 49,
             });
+            expect(result.details).to.deep.equal([
+                { id: 'printer_location', name: 'Printer location', value: 'Office' },
+            ]);
         } finally {
-            await new Promise(resolve => server.close(() => resolve(undefined)));
+            await new Promise<void>((resolve, reject) => server.close(error => (error ? reject(error) : resolve())));
         }
     });
 
@@ -127,30 +153,16 @@ describe('printerIpp', () => {
                 response.end(ipp.serialize({ version: '2.0', statusCode: 'client-error-not-found', id: 1 }));
             });
         });
-        await new Promise(resolve => server.listen(0, () => resolve(undefined)));
-
+        await new Promise<void>(resolve => server.listen(0, resolve));
         try {
             const address = server.address();
             if (!address || typeof address === 'string') {
                 throw new Error('Test server did not bind to a TCP port');
             }
-            const { port } = address;
-            let responseFailure;
-            try {
-                await pollPrinter({ host: '127.0.0.1', port, timeoutMs: 2000 });
-            } catch (error) {
-                responseFailure = error;
-            }
-            expect(responseFailure).to.be.instanceOf(Error);
-            let configFailure;
-            try {
-                await pollPrinter({ host: 'printer/path', port });
-            } catch (error) {
-                configFailure = error;
-            }
-            expect(configFailure).to.be.instanceOf(TypeError);
+            await expectRejection(pollPrinter({ host: '127.0.0.1', port: address.port, timeoutMs: 2000 }), Error);
+            await expectRejection(pollPrinter({ host: 'printer/path', port: address.port }), TypeError);
         } finally {
-            await new Promise(resolve => server.close(() => resolve(undefined)));
+            await new Promise<void>((resolve, reject) => server.close(error => (error ? reject(error) : resolve())));
         }
     });
 });

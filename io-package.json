@@ -4,17 +4,17 @@
         "version": "0.0.1",
         "news": {
             "NEXT": {
-                "en": "Added read-only IPP printer monitoring for state, supplies, and supported counters.",
-                "de": "Schreibgeschützte IPP-Druckerüberwachung für Status, Verbrauchsmaterial und verfügbare Zähler hinzugefügt.",
-                "ru": "Добавлен мониторинг состояния, расходных материалов и доступных счетчиков принтера через IPP только для чтения.",
-                "pt": "Foi adicionada a monitorização IPP, apenas para leitura, do estado, consumíveis e contadores disponíveis.",
-                "nl": "Alleen-lezen IPP-bewaking van printerstatus, benodigdheden en beschikbare tellers toegevoegd.",
-                "fr": "Ajout de la surveillance IPP en lecture seule de l'état, des consommables et des compteurs disponibles.",
-                "it": "Aggiunto il monitoraggio IPP in sola lettura dello stato, dei materiali di consumo e dei contatori disponibili.",
-                "es": "Se añadió la supervisión IPP de solo lectura del estado, los consumibles y los contadores disponibles.",
-                "pl": "Dodano monitorowanie IPP tylko do odczytu stanu drukarki, materiałów eksploatacyjnych i dostępnych liczników.",
-                "uk": "Додано моніторинг IPP лише для читання стану принтера, витратних матеріалів і доступних лічильників.",
-                "zh-cn": "新增只读 IPP 打印机状态、耗材和可用计数器监控。"
+                "en": "Added read-only IPP monitoring for printer state, supplies, counters, and optional device details.",
+                "de": "Schreibgeschützte IPP-Überwachung von Druckerstatus, Verbrauchsmaterial, Zählern und optionalen Gerätedetails hinzugefügt.",
+                "ru": "Добавлен мониторинг через IPP только для чтения: состояние принтера, расходные материалы, счетчики и дополнительные сведения об устройстве.",
+                "pt": "Foi adicionada a monitorização IPP, apenas para leitura, do estado da impressora, consumíveis, contadores e detalhes opcionais do dispositivo.",
+                "nl": "Alleen-lezen IPP-bewaking toegevoegd voor printerstatus, benodigdheden, tellers en optionele apparaatgegevens.",
+                "fr": "Ajout de la surveillance IPP en lecture seule de l'état de l'imprimante, des consommables, des compteurs et des détails facultatifs de l'appareil.",
+                "it": "Aggiunto il monitoraggio IPP in sola lettura dello stato della stampante, dei materiali di consumo, dei contatori e dei dettagli opzionali del dispositivo.",
+                "es": "Se añadió la supervisión IPP de solo lectura del estado de la impresora, los consumibles, los contadores y los detalles opcionales del dispositivo.",
+                "pl": "Dodano monitorowanie IPP tylko do odczytu stanu drukarki, materiałów eksploatacyjnych, liczników i opcjonalnych szczegółów urządzenia.",
+                "uk": "Додано моніторинг IPP лише для читання стану принтера, витратних матеріалів, лічильників і додаткових відомостей про пристрій.",
+                "zh-cn": "新增只读 IPP 监控，涵盖打印机状态、耗材、计数器和可选设备详情。"
             },
             "0.0.1": {
                 "en": "initial release",

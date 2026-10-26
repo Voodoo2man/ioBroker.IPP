@@ -32,9 +32,11 @@ Add one or more printers in the adapter settings. Each row contains:
 
 The polling interval defaults to 60 seconds and is limited to 10 seconds through 24 hours. The request timeout defaults to 5000 ms and is limited to 500-30000 ms. The adapter only sends the read-only `Get-Printer-Attributes` operation; it does not submit print jobs or change printer settings. Configure only printers that expose an IPP endpoint at the selected host, port, and resource path.
 
+Invalid printer rows are skipped with a warning that identifies the invalid fields. Debug logging reports configured field names and value types without printing configured values.
+
 ## States
 
-Each configured printer gets a device with `status`, `supplies`, and `counters` channels. `status.online` is always present; `status.model`, `status.message`, and numeric `status.state` are published when supported. IPP marker levels are normalized to percentages using the reported low/high bounds. `pages_completed`, `impressions_completed`, and `media_sheets_completed` are created only when the printer reports them. Missing values are cleared rather than replaced with zero, and offline printers are marked unavailable without retaining stale readings. Request details are not logged.
+Each configured printer gets a device with `status`, `supplies`, `counters`, and `details` channels. `status.online` is always present; `status.model`, `status.message`, and numeric `status.state` are published when supported. IPP marker levels are normalized to percentages using the reported low/high bounds. `pages_completed`, `impressions_completed`, and `media_sheets_completed` are created only when the printer reports them. The separate `details` channel contains optional printer information, location, job acceptance and queue count, uptime, supported formats and operations, color support, and page speeds when provided by the device. Missing values are cleared rather than replaced with zero, and offline printers are marked unavailable without retaining stale readings. Request details are not logged.
 
 ## Changelog
 <!--
@@ -44,6 +46,9 @@ Each configured printer gets a device with `status`, `supplies`, and `counters` 
 
 ### **WORK IN PROGRESS**
 - (Voodoo2man) Added read-only IPP monitoring for printer state, supplies, and supported counters.
+- (Voodoo2man) Migrated the adapter runtime and tests to TypeScript.
+- (Voodoo2man) Accepted string and numeric checkbox values from saved Admin printer settings.
+- (Voodoo2man) Added optional IPP printer attributes to a separate details channel.
 
 ## License
 MIT License

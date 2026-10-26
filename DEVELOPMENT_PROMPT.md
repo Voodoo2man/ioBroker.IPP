@@ -8,6 +8,7 @@ Build a maintainable ioBroker adapter that monitors HP network printers, with th
 
 ## Engineering constraints
 
+- Keep adapter runtime code and tests in TypeScript. Compile the runtime to `build/` before packaging; do not add JavaScript source files.
 - Inspect the actual scaffold, installed package versions, and relevant tests before editing.
 - Verify protocol and device behavior from credible, current sources or direct reproducible evidence. Distinguish supported behavior from assumptions in code and documentation.
 - Prefer standard, established printer protocols and maintained libraries over bespoke protocol implementations. Keep network timeouts, response sizes, polling concurrency, and retries bounded.

@@ -3,6 +3,19 @@ import https from 'node:https';
 import * as ipp from '@sealsystems/ipp';
 
 const MAX_RESPONSE_BYTES = 1024 * 1024;
+const PRINTER_UNAVAILABLE_CODES = new Set([
+    'ECONNABORTED',
+    'ECONNREFUSED',
+    'ECONNRESET',
+    'EHOSTDOWN',
+    'EHOSTUNREACH',
+    'EAI_AGAIN',
+    'ENETDOWN',
+    'ENETUNREACH',
+    'ENOTFOUND',
+    'ETIMEDOUT',
+    'EPIPE',
+]);
 const printerAttributes = ipp.attributes['Printer Description'];
 const documentAttributes = ipp.attributes['Document Description'];
 for (const name of ['pages-completed', 'impressions-completed', 'media-sheets-completed']) {
@@ -89,6 +102,10 @@ export interface PrinterSnapshot {
     details: Array<{ id: string; name: string; value: string | number | boolean }>;
 }
 
+export function isPrinterUnavailableError(error: unknown): boolean {
+    return error instanceof Error && PRINTER_UNAVAILABLE_CODES.has((error as NodeJS.ErrnoException).code ?? '');
+}
+
 function asArray(value: unknown): unknown[] {
     if (value === undefined || value === null) {
         return [];
@@ -160,7 +177,7 @@ export function normalizeSnapshot(response: ipp.IppResponse): PrinterSnapshot {
         ) {
             return [];
         }
-        const percent = ((level - lowLevel) / (highLevel - lowLevel)) * 100;
+        const percent = Math.round(((level - lowLevel) / (highLevel - lowLevel)) * 100 * 100) / 100;
         if (!Number.isFinite(percent) || percent < 0 || percent > 100) {
             return [];
         }
@@ -270,11 +287,12 @@ function sendRequest(url: URL, uri: string, timeoutMs: number, verifySsl: boolea
             request.destroy(error);
         });
         request.on('error', (error: NodeJS.ErrnoException) => {
-            reject(
-                error.code === 'ETIMEDOUT'
-                    ? new Error('Printer request timed out')
-                    : new Error('Printer IPP request failed'),
+            const wrappedError = new Error(
+                error.code === 'ETIMEDOUT' ? 'Printer request timed out' : 'Printer IPP request failed',
             );
+            wrappedError.name = error.name;
+            (wrappedError as NodeJS.ErrnoException).code = error.code;
+            reject(wrappedError);
         });
         request.end(requestBody);
     });

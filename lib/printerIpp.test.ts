@@ -1,7 +1,7 @@
 import http from 'node:http';
 import { expect } from 'chai';
 import * as ipp from '@sealsystems/ipp';
-import { normalizeSnapshot, pollPrinter } from './printerIpp';
+import { isPrinterUnavailableError, normalizeSnapshot, pollPrinter } from './printerIpp';
 
 function ippResponse(attributes: Record<string, unknown>): Buffer {
     return ipp.serialize({ version: '2.0', statusCode: 'successful-ok', id: 1, 'printer-attributes-tag': attributes });
@@ -21,6 +21,23 @@ async function expectRejection(
 }
 
 describe('printerIpp', () => {
+    it('classifies normal network outages as printer unavailable', () => {
+        const connectionRefused = new Error('Printer IPP request failed') as NodeJS.ErrnoException;
+        connectionRefused.code = 'ECONNREFUSED';
+        const dnsNotFound = new Error('Printer IPP request failed') as NodeJS.ErrnoException;
+        dnsNotFound.code = 'ENOTFOUND';
+        const temporaryDnsFailure = new Error('Printer IPP request failed') as NodeJS.ErrnoException;
+        temporaryDnsFailure.code = 'EAI_AGAIN';
+        const certificateError = new Error('certificate has expired') as NodeJS.ErrnoException;
+        certificateError.code = 'CERT_HAS_EXPIRED';
+
+        expect(isPrinterUnavailableError(connectionRefused)).to.equal(true);
+        expect(isPrinterUnavailableError(dnsNotFound)).to.equal(true);
+        expect(isPrinterUnavailableError(temporaryDnsFailure)).to.equal(true);
+        expect(isPrinterUnavailableError(certificateError)).to.equal(false);
+        expect(isPrinterUnavailableError(new Error('Printer returned an unsuccessful IPP response'))).to.equal(false);
+    });
+
     it('normalizes printer state, percentage markers, and available counters', () => {
         const snapshot = normalizeSnapshot({
             statusCode: 'successful-ok',
@@ -29,8 +46,8 @@ describe('printerIpp', () => {
                 'printer-state-message': 'Printing',
                 'printer-make-and-model': 'HP LaserJet Pro MFP M479fdn',
                 'marker-names': ['Black toner'],
-                'marker-levels': [25],
-                'marker-high-levels': [100],
+                'marker-levels': [1],
+                'marker-high-levels': [3],
                 'marker-low-levels': [0],
                 'marker-types': ['toner'],
                 'pages-completed': 120,
@@ -50,7 +67,7 @@ describe('printerIpp', () => {
             model: 'HP LaserJet Pro MFP M479fdn',
         });
         expect(snapshot.supplies).to.deep.equal([
-            { description: 'Black toner', level: 25, maxLevel: 100, unit: 14, markerType: 'toner' },
+            { description: 'Black toner', level: 33.33, maxLevel: 100, unit: 14, markerType: 'toner' },
         ]);
         expect(snapshot.counters).to.deep.equal({
             pagesCompleted: 120,

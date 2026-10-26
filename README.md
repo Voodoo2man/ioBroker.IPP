@@ -34,9 +34,11 @@ The polling interval defaults to 60 seconds and is limited to 10 seconds through
 
 Invalid printer rows are skipped with a warning that identifies the invalid fields. Debug logging reports configured field names and value types without printing configured values.
 
+When a printer is switched off or temporarily unreachable, the adapter marks it offline without a warning-level log; connection and timeout details are available at debug level. IPP protocol, TLS, and configuration errors remain warnings.
+
 ## States
 
-Each configured printer gets a device with `status`, `supplies`, `counters`, and `details` channels. `status.online` is always present; `status.model`, `status.message`, and numeric `status.state` are published when supported. IPP marker levels are normalized to percentages using the reported low/high bounds. `pages_completed`, `impressions_completed`, and `media_sheets_completed` are created only when the printer reports them. The separate `details` channel contains optional printer information, location, job acceptance and queue count, uptime, supported formats and operations, color support, and page speeds when provided by the device. Missing values are cleared rather than replaced with zero, and offline printers are marked unavailable without retaining stale readings. Request details are not logged.
+Each configured printer gets a device with `status`, `supplies`, `counters`, and `details` channels. `status.online` is always present; `status.model`, `status.message`, and numeric `status.state` are published when supported. The state value is `0` (`off`) while the printer is unreachable, and returns to the reported IPP state when it reconnects. Previously read measurements remain available while offline. IPP marker levels are normalized to percentages using the reported low/high bounds and rounded to two decimal places. `pages_completed`, `impressions_completed`, and `media_sheets_completed` are created only when the printer reports them. The separate `details` channel contains optional printer information, location, job acceptance and queue count, uptime, supported formats and operations, color support, and page speeds when provided by the device. Missing values are cleared rather than replaced with zero during successful polls. Request details are not logged.
 
 ## Changelog
 <!--
@@ -45,10 +47,7 @@ Each configured printer gets a device with `status`, `supplies`, `counters`, and
 -->
 
 ### **WORK IN PROGRESS**
-- (Voodoo2man) Added read-only IPP monitoring for printer state, supplies, and supported counters.
-- (Voodoo2man) Migrated the adapter runtime and tests to TypeScript.
-- (Voodoo2man) Accepted string and numeric checkbox values from saved Admin printer settings.
-- (Voodoo2man) Added optional IPP printer attributes to a separate details channel.
+- (Voodoo2man) Initial Version
 
 ## License
 MIT License

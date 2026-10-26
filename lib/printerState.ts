@@ -8,6 +8,7 @@ interface PrinterConfig {
 interface StateAdapter {
     printerStateIds?: Map<string, Set<string>>;
     setObjectNotExistsAsync(id: string, object: ioBroker.SettableObject): Promise<unknown>;
+    extendObjectAsync(id: string, object: { common: { states: Record<number, string> } }): Promise<unknown>;
     setStateAsync(id: string, state: ioBroker.SettableState): Promise<unknown>;
 }
 
@@ -62,13 +63,12 @@ function getPrinterStates(adapter: StateAdapter, printerId: string): Set<string>
 }
 
 export async function publishSnapshot(adapter: StateAdapter, printer: PrinterConfig, result: Snapshot): Promise<void> {
-    const knownStates = getPrinterStates(adapter, printer.id);
-    const onlineId = `${printer.id}.status.online`;
-    await adapter.setStateAsync(onlineId, { val: result.online === true, ack: true });
     if (result.online !== true) {
-        await clearReadings(adapter, knownStates);
+        await markOffline(adapter, printer);
         return;
     }
+    await adapter.setStateAsync(`${printer.id}.status.online`, { val: true, ack: true });
+    const knownStates = getPrinterStates(adapter, printer.id);
 
     const statusValues: Array<{
         id: string;
@@ -93,7 +93,7 @@ export async function publishSnapshot(adapter: StateAdapter, printer: PrinterCon
                 role: 'value',
                 read: true,
                 write: false,
-                states: { 3: 'idle', 4: 'printing', 5: 'stopped' },
+                states: { 0: 'off', 3: 'idle', 4: 'printing', 5: 'stopped' },
             },
             value:
                 typeof result.printerState === 'number' &&
@@ -194,13 +194,24 @@ export async function publishSnapshot(adapter: StateAdapter, printer: PrinterCon
     }
 }
 
-async function clearReadings(adapter: StateAdapter, knownStates: Set<string>): Promise<void> {
-    for (const id of knownStates) {
-        await adapter.setStateAsync(id, { val: null, ack: true });
-    }
-}
-
 export async function markOffline(adapter: StateAdapter, printer: PrinterConfig): Promise<void> {
     await adapter.setStateAsync(`${printer.id}.status.online`, { val: false, ack: true });
-    await clearReadings(adapter, getPrinterStates(adapter, printer.id));
+    const stateId = `${printer.id}.status.state`;
+    const knownStates = getPrinterStates(adapter, printer.id);
+    const stateLabels = { 0: 'off', 3: 'idle', 4: 'printing', 5: 'stopped' };
+    await writeState(
+        adapter,
+        stateId,
+        {
+            name: 'Printer state',
+            type: 'number',
+            role: 'value',
+            read: true,
+            write: false,
+            states: stateLabels,
+        },
+        0,
+    );
+    await adapter.extendObjectAsync(stateId, { common: { states: stateLabels } });
+    knownStates.add(stateId);
 }

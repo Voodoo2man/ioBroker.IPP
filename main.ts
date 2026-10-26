@@ -1,6 +1,6 @@
 import { Adapter, type AdapterOptions } from '@iobroker/adapter-core';
 import { describePrinterConfig, parsePrinterConfig, type PrinterConfig } from './lib/printerConfig';
-import { pollPrinter } from './lib/printerIpp';
+import { isPrinterUnavailableError, pollPrinter } from './lib/printerIpp';
 import { markOffline, publishSnapshot } from './lib/printerState';
 
 const DEFAULT_INTERVAL_SECONDS = 60;
@@ -134,7 +134,12 @@ class Hpprinter extends Adapter {
                     this.log.warn(`Could not update availability for configured printer ${printer.id}`);
                 }
                 const message = error instanceof Error ? error.message : String(error);
-                this.log.warn(`Polling configured printer ${printer.id} failed: ${message}`);
+                const logMessage = `Polling configured printer ${printer.id} failed: ${message}`;
+                if (isPrinterUnavailableError(error)) {
+                    this.log.debug(logMessage);
+                } else {
+                    this.log.warn(logMessage);
+                }
             }
         }
     }

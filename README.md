@@ -1,5 +1,6 @@
-![Logo](admin/ipp.png)
 # ioBroker.ipp
+
+![Network printer monitoring illustration](admin/ipp-banner.jpg)
 
 [![NPM version](https://img.shields.io/npm/v/iobroker.ipp.svg)](https://www.npmjs.com/package/iobroker.ipp)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.ipp.svg)](https://www.npmjs.com/package/iobroker.ipp)
@@ -47,7 +48,7 @@ Each configured printer gets a device with `status`, `supplies`, `counters`, and
 -->
 
 ### **WORK IN PROGRESS**
-- (Voodoo2man) Renamed the adapter to ipp for vendor-independent IPP monitoring.
+- (Voodoo2man) Renamed the adapter to ipp for vendor-independent IPP monitoring and added new artwork.
 - (Voodoo2man) Initial Version
 
 ## License

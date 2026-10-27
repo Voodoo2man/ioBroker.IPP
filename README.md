@@ -50,6 +50,10 @@ Each configured printer gets a device with `status`, `supplies`, `counters`, and
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 0.0.1 (2026-10-27)
+
+- (Voodoo2man) initial release
+
 Older release notes are available in [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
 
 ## License

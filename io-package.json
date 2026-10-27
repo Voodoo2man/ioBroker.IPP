@@ -4,17 +4,17 @@
         "version": "0.0.1",
         "news": {
             "NEXT": {
-                "en": "Added read-only IPP monitoring for printer state, supplies, counters, and optional device details; rounded supply percentages to two decimal places, retained readings while offline, and logged expected connection outages at debug level.",
-                "de": "Schreibgeschützte IPP-Überwachung von Druckerstatus, Verbrauchsmaterial, Zählern und optionalen Gerätedetails hinzugefügt; Füllstandswerte auf zwei Nachkommastellen gerundet, Messwerte offline beibehalten und erwartete Verbindungsfehler nur auf Debug protokolliert.",
-                "ru": "Добавлен мониторинг через IPP только для чтения: состояние принтера, расходные материалы, счетчики и дополнительные сведения; проценты округлены до двух знаков, показания сохраняются офлайн, ожидаемые сбои подключения записываются на уровне отладки.",
-                "pt": "Foi adicionada a monitorização IPP, apenas para leitura, do estado, consumíveis, contadores e detalhes opcionais; percentagens arredondadas a duas casas, leituras mantidas offline e falhas esperadas de ligação registadas em depuração.",
-                "nl": "Alleen-lezen IPP-bewaking toegevoegd voor printerstatus, benodigdheden, tellers en optionele apparaatgegevens; percentages afgerond op twee decimalen, meetwaarden offline behouden en verwachte verbindingsproblemen op debugniveau gelogd.",
-                "fr": "Ajout de la surveillance IPP en lecture seule de l'état, des consommables, des compteurs et des détails facultatifs ; pourcentages arrondis à deux décimales, mesures conservées hors ligne et échecs de connexion attendus consignés au niveau débogage.",
-                "it": "Aggiunto il monitoraggio IPP in sola lettura di stato, materiali di consumo, contatori e dettagli opzionali; percentuali arrotondate a due decimali, letture mantenute offline e problemi di connessione previsti registrati a livello debug.",
-                "es": "Se añadió la supervisión IPP de solo lectura del estado, los consumibles, los contadores y los detalles opcionales; porcentajes redondeados a dos decimales, lecturas conservadas sin conexión y fallos de conexión esperados registrados en depuración.",
-                "pl": "Dodano monitorowanie IPP tylko do odczytu stanu, materiałów eksploatacyjnych, liczników i szczegółów; wartości zaokrąglono do dwóch miejsc, zachowano odczyty offline, a oczekiwane błędy połączenia są logowane na poziomie debug.",
-                "uk": "Додано моніторинг IPP лише для читання стану, витратних матеріалів, лічильників і додаткових відомостей; відсотки округлено до двох знаків, показники збережено офлайн, очікувані збої з’єднання записуються на рівні налагодження.",
-                "zh-cn": "新增只读 IPP 打印机状态、耗材、计数器和可选设备详情监控；耗材百分比保留两位小数，离线时保留上次读数，预期的连接故障仅记入调试日志。"
+                "en": "Added read-only IPP monitoring with supplementary printer attributes directly under details, without duplicating canonical status or counter states; rounded supply percentages, retained readings while offline, logged expected connection outages at debug level, and transliterated German umlauts in printer IDs.",
+                "de": "Schreibgeschützte IPP-Überwachung mit ergänzenden Druckerattributen direkt unter details hinzugefügt, ohne Status- oder Zählerdatenpunkte zu duplizieren; Füllstandswerte gerundet, Messwerte offline beibehalten, erwartete Verbindungsfehler nur auf Debug protokolliert und Umlaute in Drucker-IDs umgeschrieben.",
+                "ru": "Добавлен мониторинг через IPP только для чтения: состояние принтера, расходные материалы, счетчики и дополнительные сведения; проценты округлены до двух знаков, показания сохраняются офлайн, ожидаемые сбои подключения записываются на уровне отладки, немецкие умлауты в идентификаторах преобразуются.",
+                "pt": "Foi adicionada a monitorização IPP, apenas para leitura, do estado, consumíveis, contadores e detalhes opcionais; percentagens arredondadas a duas casas, leituras mantidas offline, falhas esperadas registadas em depuração e tremas alemães convertidos nos IDs.",
+                "nl": "Alleen-lezen IPP-bewaking toegevoegd voor printerstatus, benodigdheden, tellers en optionele apparaatgegevens; percentages afgerond op twee decimalen, meetwaarden offline behouden, verbindingsproblemen op debugniveau gelogd en Duitse umlauts in printer-ID's omgezet.",
+                "fr": "Ajout de la surveillance IPP en lecture seule de l'état, des consommables, des compteurs et des détails facultatifs ; pourcentages arrondis à deux décimales, mesures conservées hors ligne, erreurs attendues consignées au niveau débogage et trémas allemands translittérés dans les ID.",
+                "it": "Aggiunto il monitoraggio IPP in sola lettura di stato, materiali di consumo, contatori e dettagli opzionali; percentuali arrotondate a due decimali, letture mantenute offline, problemi previsti registrati a livello debug e dieresi tedesche convertite negli ID.",
+                "es": "Se añadió la supervisión IPP de solo lectura del estado, consumibles, contadores y detalles opcionales; porcentajes redondeados a dos decimales, lecturas conservadas sin conexión, fallos esperados registrados en depuración y diéresis alemanas convertidas en los ID.",
+                "pl": "Dodano monitorowanie IPP tylko do odczytu stanu, materiałów eksploatacyjnych, liczników i szczegółów; wartości zaokrąglono do dwóch miejsc, zachowano odczyty offline, oczekiwane błędy logowane na poziomie debug, a niemieckie umlauty w ID są transliterowane.",
+                "uk": "Додано моніторинг IPP лише для читання стану, витратних матеріалів, лічильників і додаткових відомостей; відсотки округлено до двох знаків, показники збережено офлайн, очікувані збої записуються на рівні налагодження, німецькі умлаути в ID транслітеруються.",
+                "zh-cn": "新增只读 IPP 打印机状态、耗材、计数器和可选设备详情监控；耗材百分比保留两位小数，离线时保留上次读数，预期连接故障记入调试日志，并转换打印机 ID 中的德语变音字母。"
             },
             "0.0.1": {
                 "en": "initial release",
@@ -31,17 +31,17 @@
             }
         },
         "titleLang": {
-            "en": "IPP",
-            "de": "IPP",
-            "ru": "IPP",
-            "pt": "IPP",
-            "nl": "IPP",
-            "fr": "IPP",
-            "it": "IPP",
-            "es": "IPP",
-            "pl": "IPP",
-            "uk": "IPP",
-            "zh-cn": "IPP"
+            "en": "Internet Printing Protocol",
+            "de": "Internet Printing Protocol",
+            "ru": "Internet Printing Protocol",
+            "pt": "Internet Printing Protocol",
+            "nl": "Internet Printing Protocol",
+            "fr": "Internet Printing Protocol",
+            "it": "Internet Printing Protocol",
+            "es": "Internet Printing Protocol",
+            "pl": "Internet Printing Protocol",
+            "uk": "Internet Printing Protocol",
+            "zh-cn": "Internet Printing Protocol"
         },
         "desc": {
             "en": "Read-only monitoring of configured network printers using IPP/2.0 over HTTP or HTTPS",

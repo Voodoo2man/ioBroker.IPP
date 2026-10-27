@@ -19,6 +19,13 @@ describe('printerConfig', () => {
         );
     });
 
+    it('transliterates German umlauts in printer IDs', () => {
+        const parsed = parsePrinterConfig({ id: 'Büro-Übersicht', host: 'printer.local' });
+
+        expect(parsed.errors).to.deep.equal([]);
+        expect(parsed.config?.id).to.equal('Buero-Uebersicht');
+    });
+
     it('explains invalid fields without exposing configured values', () => {
         const printer = { id: 'bad.id', host: '', port: 'ipp', basePath: 'ipp/print', ssl: 'maybe' };
 

@@ -74,16 +74,52 @@ describe('printerIpp', () => {
             impressionsCompleted: 125,
             mediaSheetsCompleted: 118,
         });
-        expect(snapshot.details).to.deep.equal([
+        expect(snapshot.details).to.deep.include.members([
             { id: 'printer_location', name: 'Printer location', value: 'Office' },
             { id: 'printer_is_accepting_jobs', name: 'Accepting jobs', value: true },
             { id: 'queued_job_count', name: 'Queued jobs', value: 2 },
-            {
-                id: 'document_format_supported',
-                name: 'Supported document formats',
-                value: '["application/pdf","image/pwg-raster"]',
-            },
         ]);
+        expect(snapshot.details.map(detail => detail.id)).not.to.include.members([
+            'printer_state',
+            'printer_state_message',
+            'printer_make_and_model',
+            'pages_completed',
+            'impressions_completed',
+            'media_sheets_completed',
+        ]);
+        expect(snapshot.details.some(detail => detail.id === 'document_format_supported')).to.equal(false);
+    });
+
+    it('publishes unknown returned attributes but omits excluded capabilities', () => {
+        const snapshot = normalizeSnapshot({
+            statusCode: 'successful-ok',
+            'printer-attributes-tag': {
+                'printer-state': 'idle',
+                'printer-alert': ['toner-low', 'cover-open'],
+                'color-supported': true,
+                'marker-levels': [70, 45],
+                'pages-per-minute': 25,
+                'hp-default-duplex-standard': true,
+                'manual-duplex-supported': true,
+                'printer-get-attributes-supported': ['printer-name', 'printer-state'],
+                'document-format-supported': ['application/pdf'],
+                'finishings-supported': ['staple'],
+                'custom-vendor-metric': { value: 7 },
+            },
+        });
+
+        expect(snapshot.details).to.deep.include.members([
+            { id: 'printer_alert', name: 'printer alert', value: '["toner-low","cover-open"]' },
+            { id: 'pages_per_minute', name: 'Pages per minute', value: 25 },
+            { id: 'color_supported', name: 'Color printing supported', value: true },
+            { id: 'hp_default_duplex_standard', name: 'hp default duplex standard', value: true },
+            { id: 'manual_duplex_supported', name: 'manual duplex supported', value: true },
+            { id: 'custom_vendor_metric', name: 'custom vendor metric', value: '{"value":7}' },
+        ]);
+        expect(snapshot.details.some(detail => detail.id === 'marker_levels')).to.equal(false);
+        expect(snapshot.details.some(detail => detail.id === 'printer_get_attributes_supported')).to.equal(false);
+        expect(snapshot.details.some(detail => detail.id === 'document_format_supported')).to.equal(false);
+        expect(snapshot.details.some(detail => detail.id === 'finishings_supported')).to.equal(false);
     });
 
     it('preserves zero values and represents unsupported values as null', () => {
@@ -145,6 +181,9 @@ describe('printerIpp', () => {
             });
             const receivedRequest = await requestReceived;
             expect(receivedRequest.operation).to.equal('Get-Printer-Attributes');
+            expect(
+                (receivedRequest['operation-attributes-tag'] as Record<string, unknown>)['requested-attributes'],
+            ).to.equal('all');
             expect((receivedRequest['operation-attributes-tag'] as Record<string, unknown>)['printer-uri']).to.equal(
                 `ipp://127.0.0.1:${address.port}/ipp/print`,
             );
@@ -154,7 +193,7 @@ describe('printerIpp', () => {
                 impressionsCompleted: 60,
                 mediaSheetsCompleted: 49,
             });
-            expect(result.details).to.deep.equal([
+            expect(result.details).to.deep.include.members([
                 { id: 'printer_location', name: 'Printer location', value: 'Office' },
             ]);
         } finally {

@@ -1,4 +1,4 @@
-# ioBroker.ipp
+# ioBroker Internet Printing Protocol
 
 ![Network printer monitoring illustration](admin/ipp-banner.jpg)
 
@@ -11,7 +11,7 @@
 
 **Tests:** ![Test and Release](https://github.com/Voodoo2man/ioBroker.IPP/workflows/Test%20and%20Release/badge.svg)
 
-## ioBroker IPP Adapter
+## ioBroker Internet Printing Protocol Adapter
 
 The adapter polls configured network printers using the Internet Printing Protocol (IPP) and publishes read-only availability, printer state, toner or ink levels, and supported page counters. It uses `Get-Printer-Attributes` over IPP/2.0; device and firmware support varies, so optional attributes may not be reported by every printer. Compatibility depends on each printer’s IPP implementation; no particular device has been verified against this implementation.
 
@@ -23,7 +23,7 @@ Add one or more printers in the adapter settings. Each row contains:
 
 | Setting | Description |
 | --- | --- |
-| ID | Stable object-tree identifier; use 1-32 letters, digits, underscores, or hyphens. |
+| ID | Stable object-tree identifier; use 1-32 letters, digits, underscores, or hyphens. German umlauts are transliterated (`ä` to `ae`, `ö` to `oe`, `ü` to `ue`, `ß` to `ss`). |
 | Label | Display name for the printer. |
 | Host | Printer hostname or IP address. |
 | Port | IPP port; defaults to `631`. |
@@ -39,7 +39,9 @@ When a printer is switched off or temporarily unreachable, the adapter marks it 
 
 ## States
 
-Each configured printer gets a device with `status`, `supplies`, `counters`, and `details` channels. `status.online` is always present; `status.model`, `status.message`, and numeric `status.state` are published when supported. The state value is `0` (`off`) while the printer is unreachable, and returns to the reported IPP state when it reconnects. Previously read measurements remain available while offline. IPP marker levels are normalized to percentages using the reported low/high bounds and rounded to two decimal places. `pages_completed`, `impressions_completed`, and `media_sheets_completed` are created only when the printer reports them. The separate `details` channel contains optional printer information, location, job acceptance and queue count, uptime, supported formats and operations, color support, and page speeds when provided by the device. Missing values are cleared rather than replaced with zero during successful polls. Request details are not logged.
+Each configured printer gets a device with `status`, `supplies`, `counters`, and `details` channels. Supplementary IPP attributes are created directly under `details` (for example, `details.printer_location`); attributes already represented by the canonical status, model, and counter states are not duplicated. The adapter requests all IPP attributes and creates states for returned values except explicitly excluded capabilities, verbose attribute families, and raw marker values; selected capability/default attributes are retained. Arrays and structured values are stored as JSON strings; scalar values keep their boolean, number, or string type. Unknown, non-excluded attributes are added automatically under `details`. `status.online` is always present; `status.model`, `status.message`, and numeric `status.state` are published when supported. The state value is `0` (`off`) while the printer is unreachable, and returns to the reported IPP state when it reconnects. Previously read measurements remain available while offline. IPP marker levels are normalized to percentages using the reported low/high bounds and rounded to two decimal places. `pages_completed`, `impressions_completed`, and `media_sheets_completed` are created only when the printer reports them. Missing values are cleared rather than replaced with zero during successful polls. Request details are not logged.
+
+[![Donate with PayPal](https://camo.githubusercontent.com/ef8c60305542390406855547e32850909812a73c4abada236de22a6dc88b313f/68747470733a2f2f7777772e70617970616c6f626a656374732e636f6d2f64655f44452f44452f692f62746e2f62746e5f646f6e61746543435f4c472e676966)](https://www.paypal.com/donate/?hosted_button_id=3RJQGSJNRSHUJ)
 
 ## Changelog
 <!--
@@ -48,7 +50,7 @@ Each configured printer gets a device with `status`, `supplies`, `counters`, and
 -->
 
 ### **WORK IN PROGRESS**
-- (Voodoo2man) Renamed the adapter to ipp for vendor-independent IPP monitoring and added new artwork.
+
 - (Voodoo2man) Initial Version
 
 ## License

@@ -76,6 +76,13 @@ class Ipp extends Adapter {
 
     private async createPrinterObjects(printer: PrinterConfig): Promise<void> {
         const channelId = `${printer.id}.status`;
+        for (const legacyChannel of ['info', 'status', 'supplies', 'counters']) {
+            const legacyId = `${printer.id}.details.${legacyChannel}`;
+            const legacyObject = await this.getObjectAsync(legacyId);
+            if (legacyObject?.type === 'channel') {
+                await this.delObjectAsync(legacyId, { recursive: true });
+            }
+        }
         await this.setObjectNotExistsAsync(printer.id, {
             type: 'device',
             common: { name: printer.label || printer.id },

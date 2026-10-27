@@ -23,6 +23,14 @@ function normalizeCheckbox(value: unknown): boolean | undefined | null {
     return null;
 }
 
+function normalizePrinterId(value: string): string {
+    return value
+        .replace(/[äÄ]/g, match => (match === 'Ä' ? 'Ae' : 'ae'))
+        .replace(/[öÖ]/g, match => (match === 'Ö' ? 'Oe' : 'oe'))
+        .replace(/[üÜ]/g, match => (match === 'Ü' ? 'Ue' : 'ue'))
+        .replace(/ß/g, 'ss');
+}
+
 export function parsePrinterConfig(value: unknown): PrinterConfigResult {
     const errors = getPrinterConfigErrors(value);
     if (!value || typeof value !== 'object' || Array.isArray(value) || errors.length > 0) {
@@ -44,7 +52,7 @@ export function parsePrinterConfig(value: unknown): PrinterConfigResult {
 
     return {
         config: {
-            id: printer.id as string,
+            id: normalizePrinterId(printer.id as string),
             label: typeof printer.label === 'string' ? printer.label : undefined,
             host: printer.host as string,
             port: printer.port as number | string | undefined,
@@ -64,7 +72,7 @@ export function getPrinterConfigErrors(value: unknown): string[] {
     const printer = value as Record<string, unknown>;
     const errors: string[] = [];
 
-    if (typeof printer.id !== 'string' || !/^[A-Za-z0-9_-]{1,32}$/.test(printer.id)) {
+    if (typeof printer.id !== 'string' || !/^[A-Za-z0-9_-]{1,32}$/.test(normalizePrinterId(printer.id))) {
         errors.push('id must contain 1-32 letters, digits, underscores, or hyphens');
     }
     if (typeof printer.host !== 'string' || printer.host.trim() === '') {

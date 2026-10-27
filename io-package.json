@@ -4,17 +4,17 @@
         "version": "0.0.1",
         "news": {
             "NEXT": {
-                "en": "Added read-only IPP monitoring with supplementary printer attributes directly under details, without duplicating canonical status or counter states; rounded supply percentages, retained readings while offline, logged expected connection outages at debug level, and transliterated German umlauts in printer IDs.",
-                "de": "Schreibgeschützte IPP-Überwachung mit ergänzenden Druckerattributen direkt unter details hinzugefügt, ohne Status- oder Zählerdatenpunkte zu duplizieren; Füllstandswerte gerundet, Messwerte offline beibehalten, erwartete Verbindungsfehler nur auf Debug protokolliert und Umlaute in Drucker-IDs umgeschrieben.",
-                "ru": "Добавлен мониторинг через IPP только для чтения: состояние принтера, расходные материалы, счетчики и дополнительные сведения; проценты округлены до двух знаков, показания сохраняются офлайн, ожидаемые сбои подключения записываются на уровне отладки, немецкие умлауты в идентификаторах преобразуются.",
-                "pt": "Foi adicionada a monitorização IPP, apenas para leitura, do estado, consumíveis, contadores e detalhes opcionais; percentagens arredondadas a duas casas, leituras mantidas offline, falhas esperadas registadas em depuração e tremas alemães convertidos nos IDs.",
-                "nl": "Alleen-lezen IPP-bewaking toegevoegd voor printerstatus, benodigdheden, tellers en optionele apparaatgegevens; percentages afgerond op twee decimalen, meetwaarden offline behouden, verbindingsproblemen op debugniveau gelogd en Duitse umlauts in printer-ID's omgezet.",
-                "fr": "Ajout de la surveillance IPP en lecture seule de l'état, des consommables, des compteurs et des détails facultatifs ; pourcentages arrondis à deux décimales, mesures conservées hors ligne, erreurs attendues consignées au niveau débogage et trémas allemands translittérés dans les ID.",
-                "it": "Aggiunto il monitoraggio IPP in sola lettura di stato, materiali di consumo, contatori e dettagli opzionali; percentuali arrotondate a due decimali, letture mantenute offline, problemi previsti registrati a livello debug e dieresi tedesche convertite negli ID.",
-                "es": "Se añadió la supervisión IPP de solo lectura del estado, consumibles, contadores y detalles opcionales; porcentajes redondeados a dos decimales, lecturas conservadas sin conexión, fallos esperados registrados en depuración y diéresis alemanas convertidas en los ID.",
-                "pl": "Dodano monitorowanie IPP tylko do odczytu stanu, materiałów eksploatacyjnych, liczników i szczegółów; wartości zaokrąglono do dwóch miejsc, zachowano odczyty offline, oczekiwane błędy logowane na poziomie debug, a niemieckie umlauty w ID są transliterowane.",
-                "uk": "Додано моніторинг IPP лише для читання стану, витратних матеріалів, лічильників і додаткових відомостей; відсотки округлено до двох знаків, показники збережено офлайн, очікувані збої записуються на рівні налагодження, німецькі умлаути в ID транслітеруються.",
-                "zh-cn": "新增只读 IPP 打印机状态、耗材、计数器和可选设备详情监控；耗材百分比保留两位小数，离线时保留上次读数，预期连接故障记入调试日志，并转换打印机 ID 中的德语变音字母。"
+                "en": "Added read-only IPP monitoring with supplementary printer attributes directly under details, without duplicating canonical status or counter states; rounded supply percentages, retained readings while offline, logged expected connection outages at debug level, transliterated German umlauts in printer IDs, and required Node.js 24+, Admin >8.2.0, and js-controller >=7.2.2.",
+                "de": "Schreibgeschützte IPP-Überwachung mit ergänzenden Druckerattributen direkt unter details hinzugefügt, ohne Status- oder Zählerdatenpunkte zu duplizieren; Füllstandswerte gerundet, Messwerte offline beibehalten, erwartete Verbindungsfehler nur auf Debug protokolliert, Umlaute in Drucker-IDs umgeschrieben und Node.js 24+, Admin >8.2.0 sowie js-controller >=7.2.2 vorausgesetzt.",
+                "ru": "Добавлен мониторинг через IPP только для чтения: состояние принтера, расходные материалы, счетчики и дополнительные сведения; проценты округлены до двух знаков, показания сохраняются офлайн, ожидаемые сбои подключения записываются на уровне отладки, немецкие умлауты в идентификаторах преобразуются; требуются Node.js 24+, Admin >8.2.0 и js-controller >=7.2.2.",
+                "pt": "Foi adicionada a monitorização IPP, apenas para leitura, do estado, consumíveis, contadores e detalhes opcionais; percentagens arredondadas a duas casas, leituras mantidas offline, falhas esperadas registadas em depuração e tremas alemães convertidos nos IDs; são necessários Node.js 24+, Admin >8.2.0 e js-controller >=7.2.2.",
+                "nl": "Alleen-lezen IPP-bewaking toegevoegd voor printerstatus, benodigdheden, tellers en optionele apparaatgegevens; percentages afgerond op twee decimalen, meetwaarden offline behouden, verbindingsproblemen op debugniveau gelogd en Duitse umlauts in printer-ID's omgezet; Node.js 24+, Admin >8.2.0 en js-controller >=7.2.2 zijn vereist.",
+                "fr": "Ajout de la surveillance IPP en lecture seule de l'état, des consommables, des compteurs et des détails facultatifs ; pourcentages arrondis à deux décimales, mesures conservées hors ligne, erreurs attendues consignées au niveau débogage et trémas allemands translittérés dans les ID ; Node.js 24+, Admin >8.2.0 et js-controller >=7.2.2 sont requis.",
+                "it": "Aggiunto il monitoraggio IPP in sola lettura di stato, materiali di consumo, contatori e dettagli opzionali; percentuali arrotondate a due decimali, letture mantenute offline, problemi previsti registrati a livello debug e dieresi tedesche convertite negli ID; sono richiesti Node.js 24+, Admin >8.2.0 e js-controller >=7.2.2.",
+                "es": "Se añadió la supervisión IPP de solo lectura del estado, consumibles, contadores y detalles opcionales; porcentajes redondeados a dos decimales, lecturas conservadas sin conexión, fallos esperados registrados en depuración y diéresis alemanas convertidas en los ID; se requieren Node.js 24+, Admin >8.2.0 y js-controller >=7.2.2.",
+                "pl": "Dodano monitorowanie IPP tylko do odczytu stanu, materiałów eksploatacyjnych, liczników i szczegółów; wartości zaokrąglono do dwóch miejsc, zachowano odczyty offline, oczekiwane błędy logowane na poziomie debug, a niemieckie umlauty w ID są transliterowane; wymagane są Node.js 24+, Admin >8.2.0 i js-controller >=7.2.2.",
+                "uk": "Додано моніторинг IPP лише для читання стану, витратних матеріалів, лічильників і додаткових відомостей; відсотки округлено до двох знаків, показники збережено офлайн, очікувані збої записуються на рівні налагодження, німецькі умлаути в ID транслітеруються; потрібні Node.js 24+, Admin >8.2.0 та js-controller >=7.2.2.",
+                "zh-cn": "新增只读 IPP 打印机状态、耗材、计数器和可选设备详情监控；耗材百分比保留两位小数，离线时保留上次读数，预期连接故障记入调试日志，并转换打印机 ID 中的德语变音字母；需要 Node.js 24+、Admin >8.2.0 和 js-controller >=7.2.2。"
             },
             "0.0.1": {
                 "en": "initial release",
@@ -87,12 +87,12 @@
         },
         "dependencies": [
             {
-                "js-controller": ">=6.0.11"
+                "js-controller": ">=7.2.2"
             }
         ],
         "globalDependencies": [
             {
-                "admin": ">=7.0.23"
+                "admin": ">8.2.0"
             }
         ]
     },

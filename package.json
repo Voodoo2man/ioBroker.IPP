@@ -21,7 +21,7 @@
     "url": "https://github.com/Voodoo2man/ioBroker.IPP.git"
   },
   "engines": {
-    "node": ">= 20"
+    "node": ">= 24"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.4.3",

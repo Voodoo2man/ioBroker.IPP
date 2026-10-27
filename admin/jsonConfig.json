@@ -3,16 +3,17 @@
     "type": "panel",
     "items": {
         "printers": {
-            "type": "table",
+            "type": "accordion",
             "label": "Printers",
+            "titleAttr": "id",
             "items": [
-                { "attr": "id", "type": "text", "title": "ID", "width": "15%" },
-                { "attr": "label", "type": "text", "title": "Label", "width": "20%" },
-                { "attr": "host", "type": "text", "title": "Host", "width": "25%" },
-                { "attr": "port", "type": "number", "title": "Port", "width": "10%", "default": 631 },
-                { "attr": "basePath", "type": "text", "title": "IPP resource path", "width": "15%", "default": "/ipp/print" },
-                { "attr": "ssl", "type": "checkbox", "title": "Use TLS", "width": "10%" },
-                { "attr": "verifySsl", "type": "checkbox", "title": "Verify TLS certificate", "width": "15%", "default": false }
+                { "attr": "id", "type": "text", "label": "ID", "xs": 12, "sm": 6 },
+                { "attr": "label", "type": "text", "label": "Label", "xs": 12, "sm": 6 },
+                { "attr": "host", "type": "text", "label": "Host", "xs": 12, "md": 8 },
+                { "attr": "port", "type": "number", "label": "Port", "default": 631, "xs": 12, "md": 4 },
+                { "attr": "basePath", "type": "text", "label": "IPP resource path", "default": "/ipp/print", "xs": 12 },
+                { "attr": "ssl", "type": "checkbox", "label": "Use TLS", "xs": 12, "sm": 6 },
+                { "attr": "verifySsl", "type": "checkbox", "label": "Verify TLS certificate", "default": false, "xs": 12, "sm": 6 }
             ],
             "xs": 12
         },

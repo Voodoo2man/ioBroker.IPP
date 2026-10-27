@@ -23,6 +23,8 @@ HP cloud integration and print-job submission or other printer control are not i
 
 Add one or more printers in the adapter settings. Each row contains:
 
+Printer entries are shown in individually collapsible sections, with fields arranged responsively for narrow and wide screens.
+
 | Setting | Description |
 | --- | --- |
 | ID | Stable object-tree identifier; use 1-32 letters, digits, underscores, or hyphens. German umlauts are transliterated (`ä` to `ae`, `ö` to `oe`, `ü` to `ue`, `ß` to `ss`). |

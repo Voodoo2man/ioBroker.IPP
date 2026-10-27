@@ -4,12 +4,7 @@
 
 [![NPM version](https://img.shields.io/npm/v/iobroker.ipp.svg)](https://www.npmjs.com/package/iobroker.ipp)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.ipp.svg)](https://www.npmjs.com/package/iobroker.ipp)
-![Number of Installations](https://iobroker.live/badges/ipp-installed.svg)
-![Current version in stable repository](https://iobroker.live/badges/ipp-stable.svg)
 
-[![NPM](https://nodei.co/npm/iobroker.ipp.png?downloads=true)](https://nodei.co/npm/iobroker.ipp/)
-
-**Tests:** ![Test and Release](https://github.com/Voodoo2man/ioBroker.ipp/workflows/Test%20and%20Release/badge.svg)
 
 ## ioBroker Internet Printing Protocol Adapter
 

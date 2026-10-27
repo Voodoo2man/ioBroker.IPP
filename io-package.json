@@ -1,94 +1,94 @@
 {
-    "common": {
-        "name": "ipp",
-        "nogit": true,
-        "version": "0.0.0",
-        "news": {
-            "0.0.1": {
-                "en": "initial release",
-                "de": "Erstveröffentlichung",
-                "ru": "Начальная версия",
-                "pt": "lançamento inicial",
-                "nl": "Eerste uitgave",
-                "fr": "Première version",
-                "it": "Versione iniziale",
-                "es": "Versión inicial",
-                "pl": "Pierwsze wydanie",
-                "uk": "Початкова версія",
-                "zh-cn": "首次出版"
-            }
-        },
-        "titleLang": {
-            "en": "Internet Printing Protocol",
-            "de": "Internet Printing Protocol",
-            "ru": "Internet Printing Protocol",
-            "pt": "Internet Printing Protocol",
-            "nl": "Internet Printing Protocol",
-            "fr": "Internet Printing Protocol",
-            "it": "Internet Printing Protocol",
-            "es": "Internet Printing Protocol",
-            "pl": "Internet Printing Protocol",
-            "uk": "Internet Printing Protocol",
-            "zh-cn": "Internet Printing Protocol"
-        },
-        "desc": {
-            "en": "Read-only monitoring of configured network printers using IPP/2.0 over HTTP or HTTPS",
-            "de": "Schreibgeschützte Überwachung konfigurierter Netzwerkdrucker über IPP/2.0 mit HTTP oder HTTPS",
-            "ru": "Мониторинг настроенных сетевых принтеров через IPP/2.0 по HTTP или HTTPS только для чтения",
-            "pt": "Monitorização de impressoras de rede configuradas através de IPP/2.0 por HTTP ou HTTPS, apenas para leitura",
-            "nl": "Alleen-lezen bewaking van geconfigureerde netwerkprinters via IPP/2.0 over HTTP of HTTPS",
-            "fr": "Surveillance en lecture seule des imprimantes réseau configurées via IPP/2.0 en HTTP ou HTTPS",
-            "it": "Monitoraggio in sola lettura delle stampanti di rete configurate tramite IPP/2.0 su HTTP o HTTPS",
-            "es": "Supervisión de solo lectura de impresoras de red mediante IPP/2.0 por HTTP o HTTPS",
-            "pl": "Monitorowanie skonfigurowanych drukarek sieciowych przez IPP/2.0 za pomocą HTTP lub HTTPS tylko do odczytu",
-            "uk": "Моніторинг налаштованих мережевих принтерів через IPP/2.0 за HTTP або HTTPS лише для читання",
-            "zh-cn": "通过 HTTP 或 HTTPS 上的 IPP/2.0 只读监控已配置的网络打印机"
-        },
-        "authors": [
-            "Voodoo2man <Voodoo2man@outlook.de>"
-        ],
-        "keywords": [
-            "printer",
-            "printing",
-            "IPP",
-            "IPP/2.0",
-            "IPPS"
-        ],
-        "licenseInformation": {
-            "type": "free",
-            "license": "MIT"
-        },
-        "platform": "Javascript/Node.js",
-        "icon": "ipp.png",
-        "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/Voodoo2man/ioBroker.ipp/main/admin/ipp.png",
-        "readme": "https://github.com/Voodoo2man/ioBroker.ipp/blob/main/README.md",
-        "loglevel": "info",
-        "tier": 3,
-        "mode": "daemon",
-        "type": "network",
-        "compact": true,
-        "connectionType": "local",
-        "dataSource": "poll",
-        "adminUI": {
-            "config": "json"
-        },
-        "dependencies": [
-            {
-                "js-controller": ">=7.2.2"
-            }
-        ],
-        "globalDependencies": [
-            {
-                "admin": ">=8.2.0"
-            }
-        ]
+  "common": {
+    "name": "ipp",
+    "nogit": true,
+    "version": "0.0.1",
+    "news": {
+      "0.0.1": {
+        "en": "initial release",
+        "de": "Erstveröffentlichung",
+        "ru": "Начальная версия",
+        "pt": "lançamento inicial",
+        "nl": "Eerste uitgave",
+        "fr": "Première version",
+        "it": "Versione iniziale",
+        "es": "Versión inicial",
+        "pl": "Pierwsze wydanie",
+        "uk": "Початкова версія",
+        "zh-cn": "首次出版"
+      }
     },
-    "native": {
-        "printers": [],
-        "intervalSeconds": 60,
-        "timeoutMs": 5000
+    "titleLang": {
+      "en": "Internet Printing Protocol",
+      "de": "Internet Printing Protocol",
+      "ru": "Internet Printing Protocol",
+      "pt": "Internet Printing Protocol",
+      "nl": "Internet Printing Protocol",
+      "fr": "Internet Printing Protocol",
+      "it": "Internet Printing Protocol",
+      "es": "Internet Printing Protocol",
+      "pl": "Internet Printing Protocol",
+      "uk": "Internet Printing Protocol",
+      "zh-cn": "Internet Printing Protocol"
     },
-    "objects": [],
-    "instanceObjects": []
+    "desc": {
+      "en": "Read-only monitoring of configured network printers using IPP/2.0 over HTTP or HTTPS",
+      "de": "Schreibgeschützte Überwachung konfigurierter Netzwerkdrucker über IPP/2.0 mit HTTP oder HTTPS",
+      "ru": "Мониторинг настроенных сетевых принтеров через IPP/2.0 по HTTP или HTTPS только для чтения",
+      "pt": "Monitorização de impressoras de rede configuradas através de IPP/2.0 por HTTP ou HTTPS, apenas para leitura",
+      "nl": "Alleen-lezen bewaking van geconfigureerde netwerkprinters via IPP/2.0 over HTTP of HTTPS",
+      "fr": "Surveillance en lecture seule des imprimantes réseau configurées via IPP/2.0 en HTTP ou HTTPS",
+      "it": "Monitoraggio in sola lettura delle stampanti di rete configurate tramite IPP/2.0 su HTTP o HTTPS",
+      "es": "Supervisión de solo lectura de impresoras de red mediante IPP/2.0 por HTTP o HTTPS",
+      "pl": "Monitorowanie skonfigurowanych drukarek sieciowych przez IPP/2.0 za pomocą HTTP lub HTTPS tylko do odczytu",
+      "uk": "Моніторинг налаштованих мережевих принтерів через IPP/2.0 за HTTP або HTTPS лише для читання",
+      "zh-cn": "通过 HTTP 或 HTTPS 上的 IPP/2.0 只读监控已配置的网络打印机"
+    },
+    "authors": [
+      "Voodoo2man <Voodoo2man@outlook.de>"
+    ],
+    "keywords": [
+      "printer",
+      "printing",
+      "IPP",
+      "IPP/2.0",
+      "IPPS"
+    ],
+    "licenseInformation": {
+      "type": "free",
+      "license": "MIT"
+    },
+    "platform": "Javascript/Node.js",
+    "icon": "ipp.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/Voodoo2man/ioBroker.ipp/main/admin/ipp.png",
+    "readme": "https://github.com/Voodoo2man/ioBroker.ipp/blob/main/README.md",
+    "loglevel": "info",
+    "tier": 3,
+    "mode": "daemon",
+    "type": "network",
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "poll",
+    "adminUI": {
+      "config": "json"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=7.2.2"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=8.2.0"
+      }
+    ]
+  },
+  "native": {
+    "printers": [],
+    "intervalSeconds": 60,
+    "timeoutMs": 5000
+  },
+  "objects": [],
+  "instanceObjects": []
 }

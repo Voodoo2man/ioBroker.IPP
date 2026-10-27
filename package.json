@@ -10,6 +10,7 @@
   "homepage": "https://github.com/Voodoo2man/ioBroker.IPP",
   "license": "MIT",
   "keywords": [
+    "ioBroker",
     "printer",
     "printing",
     "IPP",
@@ -35,9 +36,9 @@
     "@iobroker/adapter-dev": "^1.5.0",
     "@iobroker/eslint-config": "^2.3.4",
     "@iobroker/testing": "^6.3.1",
-    "@tsconfig/node20": "^20.1.10",
+    "@tsconfig/node24": "^24.0.5",
     "@types/iobroker": "npm:@iobroker/types@^7.2.5",
-    "@types/node": "^20.19.43",
+    "@types/node": "^24.19.2",
     "typescript": "~5.9.3"
   },
   "main": "build/main.js",

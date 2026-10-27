@@ -15,7 +15,7 @@
 
 The adapter polls configured network printers using the Internet Printing Protocol (IPP) and publishes read-only availability, printer state, toner or ink levels, and supported page counters. It uses `Get-Printer-Attributes` over IPP/2.0; device and firmware support varies, so optional attributes may not be reported by every printer. Compatibility depends on each printer’s IPP implementation; no particular device has been verified against this implementation.
 
-Node.js 24 or newer, Admin newer than 8.2.0, and js-controller 7.2.2 or newer are required.
+Node.js 24 or newer, Admin 8.2.0 or newer, and js-controller 7.2.2 or newer are required.
 
 ## Configuration
 
@@ -53,7 +53,8 @@ Each configured printer gets a device with `status`, `supplies`, `counters`, and
 
 ### **WORK IN PROGRESS**
 
-- (Voodoo2man) Initial Version
+- (Voodoo2man) initial release
+
 
 ## License
 MIT License

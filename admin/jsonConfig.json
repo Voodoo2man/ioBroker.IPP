@@ -15,7 +15,11 @@
                 { "attr": "ssl", "type": "checkbox", "label": "Use TLS", "xs": 12, "sm": 6 },
                 { "attr": "verifySsl", "type": "checkbox", "label": "Verify TLS certificate", "default": false, "xs": 12, "sm": 6 }
             ],
-            "xs": 12
+            "xs": 12,
+            "sm": 12,
+            "md": 12,
+            "lg": 12,
+            "xl": 12
         },
         "intervalSeconds": {
             "type": "number",
@@ -25,7 +29,10 @@
             "max": 86400,
             "step": 1,
             "xs": 12,
-            "sm": 6
+            "sm": 6,
+            "md": 6,
+            "lg": 6,
+            "xl": 6
         },
         "timeoutMs": {
             "type": "number",
@@ -35,7 +42,10 @@
             "max": 30000,
             "step": 500,
             "xs": 12,
-            "sm": 6
+            "sm": 6,
+            "md": 6,
+            "lg": 6,
+            "xl": 6
         }
     }
 }

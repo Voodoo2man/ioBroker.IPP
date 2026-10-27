@@ -1,6 +1,7 @@
 {
     "common": {
         "name": "ipp",
+        "nogit": true,
         "version": "0.0.1",
         "news": {
             "0.0.1": {
@@ -79,7 +80,7 @@
         ],
         "globalDependencies": [
             {
-                "admin": ">8.2.0"
+                "admin": ">=8.2.0"
             }
         ]
     },

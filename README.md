@@ -9,7 +9,7 @@
 
 [![NPM](https://nodei.co/npm/iobroker.ipp.png?downloads=true)](https://nodei.co/npm/iobroker.ipp/)
 
-**Tests:** ![Test and Release](https://github.com/Voodoo2man/ioBroker.IPP/workflows/Test%20and%20Release/badge.svg)
+**Tests:** ![Test and Release](https://github.com/Voodoo2man/ioBroker.ipp/workflows/Test%20and%20Release/badge.svg)
 
 ## ioBroker Internet Printing Protocol Adapter
 

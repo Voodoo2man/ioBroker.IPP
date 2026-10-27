@@ -2,7 +2,7 @@
     "common": {
         "name": "ipp",
         "nogit": true,
-        "version": "0.0.1",
+        "version": "0.0.0",
         "news": {
             "0.0.1": {
                 "en": "initial release",
@@ -61,8 +61,8 @@
         "platform": "Javascript/Node.js",
         "icon": "ipp.png",
         "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/Voodoo2man/ioBroker.IPP/main/admin/ipp.png",
-        "readme": "https://github.com/Voodoo2man/ioBroker.IPP/blob/main/README.md",
+        "extIcon": "https://raw.githubusercontent.com/Voodoo2man/ioBroker.ipp/main/admin/ipp.png",
+        "readme": "https://github.com/Voodoo2man/ioBroker.ipp/blob/main/README.md",
         "loglevel": "info",
         "tier": 3,
         "mode": "daemon",

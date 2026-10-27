@@ -17,8 +17,6 @@ The adapter polls configured network printers using the Internet Printing Protoc
 
 Node.js 24 or newer, Admin newer than 8.2.0, and js-controller 7.2.2 or newer are required.
 
-HP cloud integration and print-job submission or other printer control are not implemented.
-
 ## Configuration
 
 Add one or more printers in the adapter settings. Each row contains:

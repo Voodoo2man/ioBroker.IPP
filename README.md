@@ -10,7 +10,7 @@
 
 The adapter polls configured network printers using the Internet Printing Protocol (IPP) and publishes read-only availability, printer state, toner or ink levels, and supported page counters. It uses `Get-Printer-Attributes` over IPP/2.0; device and firmware support varies, so optional attributes may not be reported by every printer. Compatibility depends on each printer’s IPP implementation; no particular device has been verified against this implementation.
 
-Node.js 24 or newer, Admin 8.2.0 or newer, and js-controller 7.2.2 or newer are required.
+Node.js 22 or newer, Admin 8.2.0 or newer, and js-controller 7.2.2 or newer are required.
 
 ## Configuration
 
@@ -38,6 +38,8 @@ When a printer is switched off or temporarily unreachable, the adapter marks it 
 
 Each configured printer gets a device with `status`, `supplies`, `counters`, and `details` channels. Supplementary IPP attributes are created directly under `details` (for example, `details.printer_location`); attributes already represented by the canonical status, model, and counter states are not duplicated. The adapter requests all IPP attributes and creates states for returned values except explicitly excluded capabilities, verbose attribute families, and raw marker values; selected capability/default attributes are retained. Arrays and structured values are stored as JSON strings; scalar values keep their boolean, number, or string type. Unknown, non-excluded attributes are added automatically under `details`. `status.online` is always present; `status.model`, `status.message`, and numeric `status.state` are published when supported. The state value is `0` (`off`) while the printer is unreachable, and returns to the reported IPP state when it reconnects. Previously read measurements remain available while offline. IPP marker levels are normalized to percentages using the reported low/high bounds and rounded to two decimal places. `pages_completed`, `impressions_completed`, and `media_sheets_completed` are created only when the printer reports them. Missing values are cleared rather than replaced with zero during successful polls. Request details are not logged.
 
+For supply reporting, the adapter combines `marker-names` with the corresponding entries in `marker-levels`, `marker-low-levels`, and `marker-high-levels`; `marker-types` is used when supplied. A supply is skipped if its name or any required numeric level/bound is missing, invalid, or out of range. Counters map from `pages-completed`, `impressions-completed`, and `media-sheets-completed` to `pages_completed`, `impressions_completed`, and `media_sheets_completed`. When reporting missing values, include the printer model and firmware, which of these IPP attributes the printer returns, and the raw values or state IDs that are absent.
+
 [![Donate with PayPal](https://camo.githubusercontent.com/ef8c60305542390406855547e32850909812a73c4abada236de22a6dc88b313f/68747470733a2f2f7777772e70617970616c6f626a656374732e636f6d2f64655f44452f44452f692f62746e2f62746e5f646f6e61746543435f4c472e676966)](https://www.paypal.com/donate/?hosted_button_id=3RJQGSJNRSHUJ)
 
 ## Changelog
@@ -45,6 +47,10 @@ Each configured printer gets a device with `status`, `supplies`, `counters`, and
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+
+- (Voodoo2man) Added Node.js 22 support and documented printer supply and counter attributes.
+
 ### 0.0.1 (2026-10-27)
 
 - (Voodoo2man) initial release

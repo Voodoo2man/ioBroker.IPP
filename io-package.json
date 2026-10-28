@@ -2,8 +2,21 @@
   "common": {
     "name": "ipp",
     "nogit": true,
-    "version": "0.0.1",
+    "version": "0.0.2",
     "news": {
+      "0.0.2": {
+        "en": "Added Node.js 22 support and documented printer supply and counter attributes.",
+        "de": "Support für Node.js 22 hinzugefügt und Druckerbedarf und Zähler dokumentiert.",
+        "ru": "Добавлена поддержка Node.js 22 и документированные атрибуты расходных материалов и счетчиков принтеров.",
+        "pt": "Foi adicionado o suporte ao Node.js 22 e documentou a fonte e o contador.",
+        "nl": "Ondersteuning voor Node.js 22 toegevoegd en de printerbenodigdheden en tellerkenmerken gedocumenteerd.",
+        "fr": "Ajout du support de Node.js 22 et des attributs d'imprimante et de compteur documentés.",
+        "it": "Aggiunto il supporto per Node.js 22 e attributi di stampa e contatore.",
+        "es": "Se ha añadido Node.js 22 y ha documentado los atributos de suministro y contador.",
+        "pl": "Dodano obsługę Node.js 22 i udokumentowane atrybuty zasilania drukarki i licznika.",
+        "uk": "Додана підтримка Node.js 22 і задокументована подача принтера і атрибути лічильника.",
+        "zh-cn": "添加了 Node.js 22 支持，并记录了打印机供应和计数器属性。"
+      },
       "0.0.1": {
         "en": "initial release",
         "de": "Erstveröffentlichung",

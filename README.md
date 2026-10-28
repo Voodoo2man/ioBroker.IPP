@@ -47,7 +47,7 @@ For supply reporting, the adapter combines `marker-names` with the corresponding
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 0.0.2 (2026-10-28)
 
 - (Voodoo2man) Added Node.js 22 support and documented printer supply and counter attributes.
 
